@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmls:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+<style>
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+input[type=text] {
+	width: 100%;
+	padding: 12px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	margin-top: 6px;
+	margin-bottom: 16px;
+	resize: vertical;
+}
+
+input[type=submit] {
+	background-color: #04AA6D;
+	color: white;
+	padding: 12px 20px;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+input[type=submit]:hover {
+	background-color: #45a049;
+}
+
+.container {
+	border-radius: 5px;
+	margin-left: 40px;
+	margin-right: 40px;
+	background-color: #f2f2f2;
+	padding: 20px;
+}
+
+.container1 {
+	border-radius: 5px;
+	margin-left: 40px;
+	margin-right: 40px;
+	padding: 20px;
+}
+
+table {
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+td, th {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+</style>
+
+</head>
+<body>
+
+	<h3 style="text-align: center;">Occurrence Get</h3>
+
+	<div class="container">
+		<form th:action="@{/ProcessForm}" method="post">
+			<label for="fname">Enter Instance Value</label> <input type="text"
+				id="fname" name="child" placeholder="enter instance value...">
+			<label for="lname">Enter Reference Value</label> <input type="text"
+				id="lname" name="parent" placeholder="enter reference value...">
+			<input type="submit" value="Submit">
+		</form>
+	</div>
+
+	<div class="container1">
+		<table>
+			<tr>
+				<th>Instance Value</th>
+				<th>Reference Value</th>
+				<th>Occurrence</th>
+			</tr>
+			<tr>
+				<td th:text="${userchild}"></td>
+				<td th:text="${userparent}"></td>
+				<td>
+					<ul style="list-style: auto">
+						<li th:each="l : ${pathsAfterSplit}">
+						<span th:text="${l}"></span><br>
+						</li>
+					</ul>
+				</td>
+			</tr>
+
+		</table>
+
+	</div>
+
+
+
+</body>
+</html>
