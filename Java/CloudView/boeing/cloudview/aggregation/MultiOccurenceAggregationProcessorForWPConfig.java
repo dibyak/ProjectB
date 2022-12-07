@@ -1,13 +1,12 @@
-package boeing.cloudview.aggregation;
+package boeing_exalead.consobox.aggregation;
 
 import com.exalead.config.bean.IsMandatory;
 import com.exalead.config.bean.PropertyDescription;
 import com.exalead.config.bean.PropertyLabel;
 import com.exalead.mercury.component.config.CVComponentConfig;
 import com.exalead.mercury.component.config.CVComponentConfigClass;
-
 /**
- * Sample aggregation processor config
+ * SGS
  */
 @PropertyLabel(value = "Multi Occurence Aggregation Processor For Work Plan")
 @CVComponentConfigClass(configClass = MultiOccurenceAggregationProcessorForWPConfig.class)
