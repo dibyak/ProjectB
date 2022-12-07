@@ -13,7 +13,6 @@ import com.exalead.cloudview.consolidationapi.processors.java.IJavaAllUpdatesAgg
 import com.exalead.cloudview.consolidationapi.processors.java.IJavaAllUpdatesAggregationProcessor;
 import com.exalead.mercury.component.CVComponentDescription;
 import com.exalead.mercury.component.config.CVComponentConfigClass;
-
 /**
  * 
  * @author SGS
