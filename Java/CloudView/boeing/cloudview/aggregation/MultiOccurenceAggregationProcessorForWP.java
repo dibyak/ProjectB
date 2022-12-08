@@ -27,15 +27,26 @@ public class MultiOccurenceAggregationProcessorForWP implements IJavaAllUpdatesA
 	private static final String META_NAME = "name";
 	private static final String META_TYPE = "type";
 	private static final String META_PID = "physicalid";
-	private static final String INDEXED_VALUE_SEPARATOR = "\007";
+	private static final String INDEXED_VALUE_SEPARATOR = "\r\n";
 	private static final String INST_REF_SEPARATOR = ":";
 	private static final String INST_REF_PAIR_SEPARATOR = "|";
 	private static final String NAME_PATH_PID_PATH_SEPARATOR = "~";
-	private static final List<String> REL_LIST = Arrays.asList("DELLmiLoadingOperationInstance", "DELLmiGeneralOperationInstance", "DELLmiUnloadingOperationInstance",
+	private static final List<String> REL_LIST = Arrays.asList("VPMInstance", "DELFmiFunctionIdentifiedInstance", "DELLmiLoadingOperationInstance", "DELLmiGeneralOperationInstance", "DELLmiUnloadingOperationInstance",
 			"DELLmiHeaderOperationInstance", "DELLmiWorkPlanSystemInstance");
 	private static final Log logger = LogFactory.getLog(MultiOccurenceAggregationProcessorForWP.class);
 	private static final Map<String, String> NODE_ARC_MAP = new HashMap<>();
 	static {
+		NODE_ARC_MAP.put("VPMInstance", "fromVPMInstance");
+		// TODO : CHECK mapping for VPMInstance
+		NODE_ARC_MAP.put("VPMReference", "toVPMInstance");
+		NODE_ARC_MAP.put("BOE_Collector", "toVPMInstance");
+		NODE_ARC_MAP.put("BOE_Installation", "toVPMInstance");
+		NODE_ARC_MAP.put("BOE_Assembly", "toVPMInstance");
+		NODE_ARC_MAP.put("DELFmiFunctionIdentifiedInstance", "fromDELFmiFunctionIdentifiedInstance");
+		// TODO : CHECK mapping for DELFmiFunctionIdentifiedInstance
+		NODE_ARC_MAP.put("CreateAssembly", "toDELFmiFunctionIdentifiedInstance");
+		NODE_ARC_MAP.put("Provide", "toDELFmiFunctionIdentifiedInstance");
+		NODE_ARC_MAP.put("Installation", "toDELFmiFunctionIdentifiedInstance");
 		NODE_ARC_MAP.put("DELLmiLoadingOperationInstance", "fromDELLmiLoadingOperationInstance");
 		// TODO : CHECK mapping for DELLmiLoadingOperationReference
 		NODE_ARC_MAP.put("DELLmiLoadingOperationReference", "toDELLmiLoadingOperationInstance");
