@@ -26,6 +26,13 @@ import org.w3c.dom.NodeList;
  */
 @Controller
 public class MainController {
+	
+	private String strEXAURLPROTOCOL = "http";
+	private String strEXASERVERNAME = "www.sgspc0813dx2022.com";
+	private String strEXASERVERPORT = "29010";
+	private String strEXAQUERYQUERY = "3dx_type_occurence_test";
+	
+	
 	@GetMapping("/")
 	public String front() {
 		return "front";
@@ -52,13 +59,7 @@ public class MainController {
 	@PostMapping("/ProcessForm")
 	public String handelForm(@RequestParam("child") String strInstance, @RequestParam("parent") String strReference, Model model) {
 		try {
-			String strEXAURLPROTOCOL = "http";
-			String strEXASERVERNAME = "www.sgspc0813dx2022.com";
-			String strEXASERVERPORT = "29010";
-			String strEXAQUERYQUERY = "3dx_type_occurence_test";
-			
 			String strInstanceCopy = strInstance;
-
 			StringBuilder sbEXAUrl = new StringBuilder("search-api/search?");
 			strEXAQUERYQUERY = URLEncoder.encode(strEXAQUERYQUERY, "UTF-8");
 			strInstanceCopy = (URLEncoder.encode(strInstanceCopy, "UTF-8").replace("+", "%20"));
@@ -144,10 +145,8 @@ public class MainController {
 																		int intReflastCharIndex = strReference.lastIndexOf(strReferenceLastChar);
 																		splitvalue = strOccurencePath.substring(0, ((intReferenceIndex + intReflastCharIndex) + 1));
 																		splitvaluewithList.add(splitvalue);
-
 																	}
 																}
-
 																model.addAttribute("userchild", strInstance);
 																model.addAttribute("userparent", strReference);
 																model.addAttribute("pathsAfterSplit", splitvaluewithList);

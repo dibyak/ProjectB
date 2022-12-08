@@ -18,7 +18,6 @@ import com.exalead.searchapi.xmlv10.client.SearchAnswer;
 import com.exalead.searchapi.xmlv10.client.SearchClient;
 import com.exalead.searchapi.xmlv10.client.SearchParameter;
 import com.exalead.searchapi.xmlv10.client.SearchQuery;
-
 /**
  * 
  * @author SGSPL
