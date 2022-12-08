@@ -1,131 +1,117 @@
-package boeing_exalead.consobox.aggregation;
 
+package boeing.cloudview.aggregation;
+
+import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
 import com.exalead.cloudview.consolidationapi.processors.IAggregationDocument;
 import com.exalead.cloudview.consolidationapi.processors.java.IJavaAllUpdatesAggregationHandler;
 import com.exalead.cloudview.consolidationapi.processors.java.IJavaAllUpdatesAggregationProcessor;
 import com.exalead.mercury.component.CVComponentDescription;
 import com.exalead.mercury.component.config.CVComponentConfigClass;
+
 /**
- * 
  * @author SGS
- *
  */
 @CVComponentConfigClass(configClass = MultiOccurenceAggregationProcessorForWPConfig.class)
-@CVComponentDescription(value = "This Multi Occurence Aggregation Processor for Work Plan")
+@CVComponentDescription(value = "Multi Occurence Aggregation Processor for Work Plan")
 public class MultiOccurenceAggregationProcessorForWP implements IJavaAllUpdatesAggregationProcessor {
 	private MultiOccurenceAggregationProcessorForWPConfig workPlanConfig;
-
-	private String strMetaInstanceEexternalid = "instance_externalid";
-	private String strMetaName = "name";
-
-	private List<String> listOfRelationship = Arrays.asList("DELLmiLoadingOperationInstance",
-			"DELLmiGeneralOperationInstance", "DELLmiUnloadingOperationInstance", "DELLmiHeaderOperationInstance",
-			"DELLmiWorkPlanSystemInstance");
-
-	private StringBuilder stringBuilderResult = new StringBuilder();
+	private static final String META_INSTANCE_EXT_ID = "instance_externalid";
+	private static final String META_NAME = "name";
+	private static final String META_TYPE = "type";
+	private static final String META_PID = "physicalid";
+	private static final String INDEXED_VALUE_SEPARATOR = "\007";
+	private static final String INST_REF_SEPARATOR = ":";
+	private static final String INST_REF_PAIR_SEPARATOR = "|";
+	private static final String NAME_PATH_PID_PATH_SEPARATOR = "~";
+	private static final List<String> REL_LIST = Arrays.asList("DELLmiLoadingOperationInstance", "DELLmiGeneralOperationInstance", "DELLmiUnloadingOperationInstance",
+			"DELLmiHeaderOperationInstance", "DELLmiWorkPlanSystemInstance");
+	private static final Map<String, String> NODE_ARC_MAP = new HashMap<>();
+	static {
+		NODE_ARC_MAP.put("DELLmiLoadingOperationInstance", "fromDELLmiLoadingOperationInstance");
+		// TODO : CHECK mapping for DELLmiLoadingOperationReference
+		NODE_ARC_MAP.put("DELLmiLoadingOperationReference", "toDELLmiLoadingOperationInstance");
+		NODE_ARC_MAP.put("DELLmiUnloadingOperationInstance", "fromDELLmiUnloadingOperationInstance");
+		// TODO : CHECK mapping for DELLmiUnloadingOperationReference
+		NODE_ARC_MAP.put("DELLmiUnloadingOperationReference", "toDELLmiUnloadingOperationInstance");
+		NODE_ARC_MAP.put("DELLmiGeneralOperationInstance", "fromDELLmiGeneralOperationInstance");
+		// TODO : CHECK mapping for DELLmiGeneralOperationReference
+		NODE_ARC_MAP.put("DELLmiGeneralOperationReference", "toDELLmiGeneralOperationInstance");
+		NODE_ARC_MAP.put("DELLmiHeaderOperationInstance", "fromDELLmiHeaderOperationInstance");
+		NODE_ARC_MAP.put("DELLmiHeaderOperationReference", "toDELLmiHeaderOperationInstance");
+		NODE_ARC_MAP.put("DELLmiWorkPlanSystemReference", "toDELLmiWorkPlanSystemInstance");
+		NODE_ARC_MAP.put("DELLmiWorkPlanSystemInstance", "fromDELLmiWorkPlanSystemInstance");
+	}
 
 	public MultiOccurenceAggregationProcessorForWP(MultiOccurenceAggregationProcessorForWPConfig config) {
 		this.workPlanConfig = config;
 	}
 
 	/**
-	 * 
+	 * Overridden Method : See {@link IJavaAllUpdatesAggregationProcessor}
 	 */
 	@Override
-	public String getAggregationDocumentType() {
-		return workPlanConfig.getTargetNode();
-	}
-
-	/**
-	 * 
-	 */
-	@Override
-	public void process(IJavaAllUpdatesAggregationHandler aggregationHandler, IAggregationDocument aggregationDocument)
-			throws Exception {
-
+	public void process(IJavaAllUpdatesAggregationHandler aggregationHandler, IAggregationDocument aggregationDocument) throws Exception {
 		aggregationDocument.deleteMeta(this.workPlanConfig.getTargetMeta());
-
-		StringBuilder stringBuilderData = processDocument(aggregationHandler, aggregationDocument, "",
-				this.workPlanConfig.getRelName());
-
-		aggregationDocument.withMeta(this.workPlanConfig.getTargetMeta(), stringBuilderData.toString());
+		StringBuilder strBuildData = processDocument(aggregationHandler, aggregationDocument);
+		aggregationDocument.withMeta(this.workPlanConfig.getTargetMeta(), strBuildData.toString());
 	}
 
 	/**
-	 * 
-	 * @param aggregationHandler  The aggregation handler with the allowed
-	 *                            operations for the processor.
-	 * @param aggregationDocument The reference document.
+	 * @param aggrHandler
+	 *            The aggregation handler with the allowed operations for the processor.
+	 * @param aggrDoc
+	 *            The reference document.
 	 * @param strSeparator
-	 * @param strRelationship     It defines nodes type to process to find the
-	 *                            multiple occurrence for the Relationship node
+	 * @param strRelationship
+	 *            It defines nodes type to process to find the multiple occurrence for the Relationship node
 	 * @return string value
 	 */
-	private StringBuilder processDocument(IJavaAllUpdatesAggregationHandler aggregationHandler,
-			IAggregationDocument aggregationDocument, String strSeparator, String strRelationship) {
-		Stack<Stack<IAggregationDocument>> stackStackPaths = new Stack<>();
-
-		List<IAggregationDocument> listTempDoc = aggregationHandler.matchPathEnd(aggregationDocument, strRelationship);
-		for (IAggregationDocument tempDoc : listTempDoc) {
-			Stack<IAggregationDocument> stackPath = new Stack<>();
-			stackPath.push(aggregationDocument);
-			stackPath.push(tempDoc);
-			stackStackPaths.push(stackPath);
+	private StringBuilder processDocument(IJavaAllUpdatesAggregationHandler aggrHandler, IAggregationDocument aggrDoc) {
+		ArrayDeque<ArrayDeque<IAggregationDocument>> arrDequePaths = new ArrayDeque<>();
+		List<IAggregationDocument> listConnectedDocs = getPathEnd(aggrHandler, aggrDoc);
+		for (IAggregationDocument aggrDocConnected : listConnectedDocs) {
+			ArrayDeque<IAggregationDocument> arrDequePath = new ArrayDeque<>();
+			arrDequePath.push(aggrDoc);
+			arrDequePath.push(aggrDocConnected);
+			arrDequePaths.push(arrDequePath);
 		}
-
-		while (!stackStackPaths.isEmpty()) {
-
-			Stack<IAggregationDocument> stackPath = stackStackPaths.pop();
-			IAggregationDocument doc2 = stackPath.peek();
-			List<IAggregationDocument> listTempDoc2 = getPathObj(aggregationHandler, doc2);
-			if (listTempDoc2 == null || listTempDoc2.isEmpty()) {
-				printPath(stackPath);
+		StringBuilder strBuildPaths = new StringBuilder();
+		while (!arrDequePaths.isEmpty()) {
+			ArrayDeque<IAggregationDocument> arrDequePath = arrDequePaths.pop();
+			IAggregationDocument aggrDocNew = arrDequePath.peek();
+			listConnectedDocs = getPathEnd(aggrHandler, aggrDocNew);
+			if (listConnectedDocs == null || listConnectedDocs.isEmpty()) {
+				strBuildPaths.append(computePath(arrDequePath)).append(INDEXED_VALUE_SEPARATOR);
 			} else {
-				for (IAggregationDocument tempDoc : listTempDoc2) {
-					@SuppressWarnings("unchecked")
-					Stack<IAggregationDocument> stackPath2 = (Stack<IAggregationDocument>) stackPath.clone();
-					stackPath2.push(tempDoc);
-					stackStackPaths.push(stackPath2);
+				for (IAggregationDocument aggrConnectedDoc : listConnectedDocs) {
+					ArrayDeque<IAggregationDocument> arrDequeClonedPath = arrDequePath.clone();
+					arrDequeClonedPath.push(aggrConnectedDoc);
+					arrDequePaths.push(arrDequeClonedPath);
 				}
 			}
 		}
-		return stringBuilderResult;
+		return strBuildPaths;
 	}
 
 	/**
-	 * 
-	 * @param aggregationHandler  The aggregation handler with the allowed
-	 *                            operations for the processor.
-	 * @param aggregationDocument reference document.
+	 * @param aggregationHandler
+	 *            The aggregation handler with the allowed operations for the processor.
+	 * @param aggregationDocument
+	 *            reference document.
 	 * @return empty list value
 	 */
-	private List<IAggregationDocument> getPathObj(IJavaAllUpdatesAggregationHandler aggregationHandler,
-			IAggregationDocument aggregationDocument) {
+	private List<IAggregationDocument> getPathEnd(IJavaAllUpdatesAggregationHandler aggregationHandler, IAggregationDocument aggregationDocument) {
 		String strRelationshipName = null;
-
-		Map<String, String> mArcInfo = new HashMap<>();
-		mArcInfo.put("DELLmiLoadingOperationInstance", "fromDELLmiLoadingOperationInstance");
-		mArcInfo.put("DELLmiUnloadingOperationInstance", "fromDELLmiUnloadingOperationInstance");
-		mArcInfo.put("DELLmiGeneralOperationInstance", "fromDELLmiGeneralOperationInstance");
-		mArcInfo.put("DELLmiHeaderOperationReference", "toDELLmiHeaderOperationInstance");
-		mArcInfo.put("DELLmiHeaderOperationInstance", "fromDELLmiHeaderOperationInstance");
-		mArcInfo.put("DELLmiWorkPlanSystemReference", "toDELLmiWorkPlanSystemInstance");
-		mArcInfo.put("DELLmiWorkPlanSystemInstance", "fromDELLmiWorkPlanSystemInstance");
-
-		strRelationshipName = mArcInfo.get(aggregationDocument.getMeta("type"));
+		strRelationshipName = NODE_ARC_MAP.get(aggregationDocument.getMeta(META_TYPE));
 		if (strRelationshipName != null && !strRelationshipName.isEmpty()) {
-			List<IAggregationDocument> listTempDoc = aggregationHandler.matchPathEnd(aggregationDocument,
-					strRelationshipName);
+			List<IAggregationDocument> listTempDoc = aggregationHandler.matchPathEnd(aggregationDocument, strRelationshipName);
 			if (listTempDoc != null && !listTempDoc.isEmpty()) {
-
 				return listTempDoc;
 			}
 		}
@@ -133,25 +119,33 @@ public class MultiOccurenceAggregationProcessorForWP implements IJavaAllUpdatesA
 	}
 
 	/**
-	 * 
-	 * @param stackPath represents a last-in-first-out (LIFO) stack of objects. The
-	 *                  usual {@code push} and {@code pop} operations are provided,
-	 *                  as well as a method to {@code peek} at the top item on the
-	 *                  stack
+	 * @param arrDequePath
+	 *            represents a last-in-first-out (LIFO) stack of objects. The usual {@code push} and {@code pop} operations are provided, as well as a
+	 *            method to {@code peek} at the top item on the stack
+	 * @return
 	 */
-	private void printPath(Stack<IAggregationDocument> stackPath) {
-		stringBuilderResult.append("\u007E");
-		for (Iterator<IAggregationDocument> iterator = stackPath.iterator(); iterator.hasNext();) {
-			IAggregationDocument doc = iterator.next();
-			if (listOfRelationship.contains(doc.getMeta(strMetaName))) {
-				stringBuilderResult.append(doc.getMeta(strMetaInstanceEexternalid));
-				stringBuilderResult.append("|");
+	private StringBuilder computePath(ArrayDeque<IAggregationDocument> arrDequePath) {
+		StringBuilder strBuildPathWithPIDs = new StringBuilder();
+		StringBuilder strBuildPathWithNames = new StringBuilder();
+		for (IAggregationDocument aggrDoc : arrDequePath) {
+			strBuildPathWithPIDs.append(aggrDoc.getMeta(META_PID));
+			if (REL_LIST.contains(aggrDoc.getMeta(META_TYPE))) {
+				strBuildPathWithNames.append(aggrDoc.getMeta(META_INSTANCE_EXT_ID));
+				strBuildPathWithNames.append(INST_REF_SEPARATOR);
+				strBuildPathWithPIDs.append(INST_REF_SEPARATOR);
 			} else {
-				stringBuilderResult.append(doc.getMeta(strMetaName));
-				stringBuilderResult.append("#");
+				strBuildPathWithNames.append(aggrDoc.getMeta(META_NAME));
+				strBuildPathWithNames.append(INST_REF_PAIR_SEPARATOR);
+				strBuildPathWithPIDs.append(INST_REF_PAIR_SEPARATOR);
 			}
 		}
-		stringBuilderResult.setLength(stringBuilderResult.length() - 1);
+		return new StringBuilder(strBuildPathWithNames.substring(0, strBuildPathWithNames.length() - 1)).append(NAME_PATH_PID_PATH_SEPARATOR)
+				.append(strBuildPathWithPIDs.substring(0, strBuildPathWithPIDs.length() - 1));
 	}
 
+	@Override
+	public String getAggregationDocumentType() {
+		// TODO Auto-generated method stub
+		return workPlanConfig.getTargetNode();
+	}
 }

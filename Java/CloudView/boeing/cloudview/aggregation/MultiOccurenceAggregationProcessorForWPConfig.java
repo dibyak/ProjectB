@@ -1,4 +1,4 @@
-package boeing_exalead.consobox.aggregation;
+package boeing.cloudview.aggregation;
 
 import com.exalead.config.bean.IsMandatory;
 import com.exalead.config.bean.PropertyDescription;
