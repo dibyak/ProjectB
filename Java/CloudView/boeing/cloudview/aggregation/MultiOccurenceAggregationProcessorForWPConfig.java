@@ -5,27 +5,17 @@ import com.exalead.config.bean.PropertyDescription;
 import com.exalead.config.bean.PropertyLabel;
 import com.exalead.mercury.component.config.CVComponentConfig;
 import com.exalead.mercury.component.config.CVComponentConfigClass;
+
 /**
- * SGS
+ * Sample aggregation processor config
  */
 @PropertyLabel(value = "Multi Occurence Aggregation Processor For Work Plan")
 @CVComponentConfigClass(configClass = MultiOccurenceAggregationProcessorForWPConfig.class)
 public class MultiOccurenceAggregationProcessorForWPConfig implements CVComponentConfig {
 
-	private String sRelName;
+	
 	private String sTargetMeta;
 	private String sTargetNode;
-
-	public String getRelName() {
-		return sRelName;
-	}
-
-	@IsMandatory(true)
-	@PropertyLabel("Nodes Relationship")
-	@PropertyDescription("Nodes type to process to find the multiple occurence for the Relationship node.")
-	public void setRelName(String rel) {
-		this.sRelName = rel;
-	}
 
 	public String getTargetMeta() {
 		return sTargetMeta;
@@ -43,7 +33,7 @@ public class MultiOccurenceAggregationProcessorForWPConfig implements CVComponen
 	}
 
 	@IsMandatory(true)
-	@PropertyLabel("Document Node")
+	@PropertyLabel("Target Node")
 	@PropertyDescription("Processor call for this Node")
 	public void setTargetNode(String sTargetNode) {
 		this.sTargetNode = sTargetNode;
@@ -51,7 +41,8 @@ public class MultiOccurenceAggregationProcessorForWPConfig implements CVComponen
 
 	@Override
 	public String toString() {
-		return "MultiOccurenceAggregationProcessorForWPConfig{" + "rel='" + sRelName + '\'' + ", targetMeta='"
-				+ sTargetMeta + '\'' + ", sTargetNode='" + sTargetNode + "'}";
+		return "MultiOccurenceAggregationProcessorForWPConfig [sTargetMeta=" + sTargetMeta + ", sTargetNode="
+				+ sTargetNode + "]";
 	}
+
 }
