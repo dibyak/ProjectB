@@ -3,10 +3,12 @@ package boeing.cloudview.aggregation;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import com.exalead.cloudview.consolidationapi.processors.IAggregationDocument;
 import com.exalead.cloudview.consolidationapi.processors.java.IJavaAllUpdatesAggregationHandler;
@@ -31,6 +33,7 @@ public class MultiOccurenceAggregationProcessorForWP implements IJavaAllUpdatesA
 	private static final String NAME_PATH_PID_PATH_SEPARATOR = "~";
 	private static final List<String> REL_LIST = Arrays.asList("DELLmiLoadingOperationInstance", "DELLmiGeneralOperationInstance", "DELLmiUnloadingOperationInstance",
 			"DELLmiHeaderOperationInstance", "DELLmiWorkPlanSystemInstance");
+	private static final Log logger = LogFactory.getLog(MultiOccurenceAggregationProcessorForWP.class);
 	private static final Map<String, String> NODE_ARC_MAP = new HashMap<>();
 	static {
 		NODE_ARC_MAP.put("DELLmiLoadingOperationInstance", "fromDELLmiLoadingOperationInstance");
@@ -58,8 +61,9 @@ public class MultiOccurenceAggregationProcessorForWP implements IJavaAllUpdatesA
 	@Override
 	public void process(IJavaAllUpdatesAggregationHandler aggregationHandler, IAggregationDocument aggregationDocument) throws Exception {
 		aggregationDocument.deleteMeta(this.workPlanConfig.getTargetMeta());
-		StringBuilder strBuildData = processDocument(aggregationHandler, aggregationDocument);
-		aggregationDocument.withMeta(this.workPlanConfig.getTargetMeta(), strBuildData.toString());
+		StringBuilder strBuildOccurrencePaths = processDocument(aggregationHandler, aggregationDocument);
+		logger.info(strBuildOccurrencePaths.toString());
+		aggregationDocument.withMeta(this.workPlanConfig.getTargetMeta(), strBuildOccurrencePaths.toString());
 	}
 
 	/**
@@ -109,13 +113,14 @@ public class MultiOccurenceAggregationProcessorForWP implements IJavaAllUpdatesA
 	private List<IAggregationDocument> getPathEnd(IJavaAllUpdatesAggregationHandler aggregationHandler, IAggregationDocument aggregationDocument) {
 		String strRelationshipName = null;
 		strRelationshipName = NODE_ARC_MAP.get(aggregationDocument.getMeta(META_TYPE));
+		logger.info("DOC TYPE = " + aggregationDocument.getMeta(META_TYPE));
+		logger.info("DOC NAME = " + aggregationDocument.getMeta(META_NAME));
+		logger.info("DOC REL AS FETCHED FROM MAP = " + NODE_ARC_MAP.get(aggregationDocument.getMeta(META_TYPE)));
+		List<IAggregationDocument> listTempDoc = null;
 		if (strRelationshipName != null && !strRelationshipName.isEmpty()) {
-			List<IAggregationDocument> listTempDoc = aggregationHandler.matchPathEnd(aggregationDocument, strRelationshipName);
-			if (listTempDoc != null && !listTempDoc.isEmpty()) {
-				return listTempDoc;
-			}
+			listTempDoc = aggregationHandler.matchPathEnd(aggregationDocument, strRelationshipName);
 		}
-		return Collections.emptyList();
+		return listTempDoc;
 	}
 
 	/**
