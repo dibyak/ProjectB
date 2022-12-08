@@ -19,164 +19,138 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+/**
+ * 
+ * @author SGSPL
+ *
+ */
 @Controller
-public class MainController 
-{
+public class MainController {
 	@GetMapping("/")
-	public String front()
-	{
-		System.out.println("Inside front");
+	public String front() {
 		return "front";
 	}
-	
-	
+
+	/**
+	 * 
+	 * @return used to send all the details to UI part to show the output
+	 */
 	@GetMapping("/index")
-	public String index()
-	{
-		System.out.println("Inside index");
+	public String index() {
 		return "index";
 	}
-	
-	
-	@PostMapping("/ProcessForm")
-	public String handelForm(@RequestParam("child") String childValue, @RequestParam("parent") String parentValue,
-			Model model) {
 
+	/**
+	 * 
+	 * @param strInstance  get the Instance value from UI
+	 * @param strReference get the reference value from UI
+	 * @param model        works a container that contains the data of the
+	 *                     application. Here, a data can be in any form such as
+	 *                     objects, strings, information from the database, etc.
+	 * @return used to send all the details to UI part to show the output
+	 */
+	@PostMapping("/ProcessForm")
+	public String handelForm(@RequestParam("child") String strInstance, @RequestParam("parent") String strReference, Model model) {
 		try {
-			String EXA_URL_PROTOCOL = "http";
-			String EXA_SERVER_NAME = "www.sgspc0813dx2022.com";
-			String EXA_SERVERPORT = "29010";
-			String EXAQUERY_QUERY = "3dx_type_occurrence";
+			String strEXAURLPROTOCOL = "http";
+			String strEXASERVERNAME = "www.sgspc0813dx2022.com";
+			String strEXASERVERPORT = "29010";
+			String strEXAQUERYQUERY = "3dx_type_occurence_test";
 			
-//			FileInputStream fis = new FileInputStream("..\\exalead_project1\\build.properties");
-//			Properties prop = new Properties();
-//			prop.load(fis);
-//			String EXA_URL_PROTOCOL = prop.getProperty("protocol");
-//			String EXA_SERVER_NAME = prop.getProperty("servername");
-//			String EXA_SERVERPORT = prop.getProperty("serverport");
-//			String EXAQUERY_QUERY = prop.getProperty("query");
-			
-			
-			
+			String strInstanceCopy = strInstance;
 
 			StringBuilder sbEXAUrl = new StringBuilder("search-api/search?");
-			EXAQUERY_QUERY = URLEncoder.encode(EXAQUERY_QUERY, "UTF-8");
-			String strEXAUrl = new StringBuilder(EXA_URL_PROTOCOL).append("://").append(EXA_SERVER_NAME).append(":")
-					.append(EXA_SERVERPORT).append("/").append(sbEXAUrl.toString()).append("q=").append(EXAQUERY_QUERY)
-					.append(":%22").append(childValue).append("*%22").toString();
+			strEXAQUERYQUERY = URLEncoder.encode(strEXAQUERYQUERY, "UTF-8");
+			strInstanceCopy = (URLEncoder.encode(strInstanceCopy, "UTF-8").replace("+", "%20"));
+			String strEXAUrl = new StringBuilder(strEXAURLPROTOCOL).append("://").append(strEXASERVERNAME).append(":")
+					.append(strEXASERVERPORT).append("/").append(sbEXAUrl.toString()).append("q=").append(strEXAQUERYQUERY)
+					.append(":%22").append(strInstanceCopy).append("*%22").toString();
 
 			URL url = new URL(strEXAUrl);
-			URLConnection conn = url.openConnection();
+			URLConnection urlConnection = url.openConnection();
 
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document document = builder.parse(conn.getInputStream());
+			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+			Document document = documentBuilder.parse(urlConnection.getInputStream());
 			document.getDocumentElement().normalize();
 
 			Element rootElement = document.getDocumentElement();
-			String numberofnhits = rootElement.getAttribute("nhits");
+			String strNumberOfnHits = rootElement.getAttribute("nhits");
 
-			String value = null;
+			String strOccurenceDetails = null;
 
-			if (!"0".equals(numberofnhits)) {
-				NodeList hitsLists = document.getElementsByTagName("hits");
+			if (!"0".equals(strNumberOfnHits)) {
+				NodeList hitsList = document.getElementsByTagName("hits");
 
-				for (int i = 0; i < hitsLists.getLength(); i++) {
-					Node hits = hitsLists.item(i);
+				for (int i = 0; i < hitsList.getLength(); i++) {
+					Node nodeHitsListItem = hitsList.item(i);
 
-					if (hits.getNodeType() == Node.ELEMENT_NODE) {
-						NodeList hitsDetails = hits.getChildNodes();
-
-						ArrayList<String> url1 = new ArrayList<String>();
-
-						int hitCount = 0;
+					if (nodeHitsListItem.getNodeType() == Node.ELEMENT_NODE) {
+						NodeList nodeHitListChildItem = nodeHitsListItem.getChildNodes();
+						ArrayList<String> listDetailAttribute = new ArrayList<>();
 						Element detailElementHits = null;
-						Node detailhits = null;
-						NodeList HitList = null;
+						Node nodeHitListItem = null;
+						NodeList hitList = null;
 
-						for (int j = 0; j < hitsDetails.getLength(); j++) {
-							detailhits = hitsDetails.item(j);
-							if (detailhits.getNodeType() == Node.ELEMENT_NODE) {
-								detailElementHits = (Element) detailhits;
+						for (int j = 0; j < nodeHitListChildItem.getLength(); j++) {
+							nodeHitListItem = nodeHitListChildItem.item(j);
+							if (nodeHitListItem.getNodeType() == Node.ELEMENT_NODE) {
+								detailElementHits = (Element) nodeHitListItem;
 
-								if (detailElementHits.getNodeName().contains("Hit")) // get Hit...
+								if (detailElementHits.getNodeName().contains("Hit"))
 								{
-									hitCount++;
-									url1.add(detailElementHits.getAttribute("url"));
-									HitList = document.getElementsByTagName("Hit");
+									listDetailAttribute.add(detailElementHits.getAttribute("url"));
+									hitList = document.getElementsByTagName("Hit");
 								}
 							}
 						}
 
-						for (int m = 0; m < HitList.getLength(); m++) {
-							Node Hit = HitList.item(m);
-
-							if (Hit.getNodeType() == Node.ELEMENT_NODE) {
-								Element HitElement = (Element) Hit;
-
-								NodeList metasDetails = Hit.getChildNodes();
-
-								Node metasdetail = null;
+						for (int m = 0; m < hitList.getLength(); m++) {
+							Node hitDetails = hitList.item(m);
+							if (hitDetails.getNodeType() == Node.ELEMENT_NODE) {
+								NodeList nodeMetasListItem = hitDetails.getChildNodes();
+								Node nodemMetasListItem = null;
 								Element detailElement = null;
-
-								for (int n = 0; n < metasDetails.getLength(); n++) {
-									metasdetail = metasDetails.item(n);
-
-									if (metasdetail.getNodeType() == Node.ELEMENT_NODE) {
-										detailElement = (Element) metasdetail;
-
-										if (detailElement.getNodeName() == "metas") {
+								for (int n = 0; n < nodeMetasListItem.getLength(); n++) {
+									nodemMetasListItem = nodeMetasListItem.item(n);
+									if (nodemMetasListItem.getNodeType() == Node.ELEMENT_NODE) {
+										detailElement = (Element) nodemMetasListItem;
+										if ("metas".equals(detailElement.getNodeName())) {
 											NodeList metasList = document.getElementsByTagName("metas");
-
 											for (int a = 0; a < metasList.getLength(); a++) {
 												Node meta = metasList.item(a);
 												if (meta.getNodeType() == Node.ELEMENT_NODE) {
-													Element metaElement = (Element) meta;
 													NodeList metaDetails = meta.getChildNodes();
-
 													for (int b = 0; b < metaDetails.getLength(); b++) {
 														Node detail = metaDetails.item(b);
 														if (detail.getNodeType() == Node.ELEMENT_NODE) {
 															Element detailElements = (Element) detail;
+															String strMetaNameDetails = detailElements.getAttribute("name");
+															if (strMetaNameDetails.contains("occurence_test")) {
+																strOccurenceDetails = detailElements.getElementsByTagName("MetaString").item(0).getTextContent();
 
-															String metasdetails = detailElements.getAttribute("name");
-
-															if (metasdetails.contains("occurrence")) {
-																value = detailElements
-																		.getElementsByTagName("MetaString").item(0)
-																		.getTextContent();
-
-																String[] result = value.split(" ");
-
-																String newvalue = null;
+																String[] arrOccurenceDetailSeperator = strOccurenceDetails.split("~");
+																String strOccurencePath = null;
 																String splitvalue = null;
-																List<String> splitvaluewithList = new ArrayList<String>();
+																List<String> splitvaluewithList = new ArrayList<>();
 
-																System.out.println("result = ");
-																for (int q = 0; q < result.length; q++) {
-																	if (result[q].contains(childValue)
-																			&& result[q].contains(parentValue)) {
-																		newvalue = result[q];
+																for (int q = 0; q < arrOccurenceDetailSeperator.length; q++) {
+																	if (arrOccurenceDetailSeperator[q].contains(strInstance)
+																			&& arrOccurenceDetailSeperator[q].contains(strReference)) {
+																		strOccurencePath = arrOccurenceDetailSeperator[q];
 
-																		int index1 = newvalue.indexOf(parentValue);
-
-																		String lastcahr = parentValue
-																				.substring(parentValue.length() - 1);
-
-																		int index2 = parentValue.lastIndexOf(lastcahr);
-
-																		splitvalue = newvalue.substring(0,
-																				((index1 + index2) + 1));
-
+																		int intReferenceIndex = strOccurencePath.indexOf(strReference);
+																		String strReferenceLastChar = strReference.substring(strReference.length() - 1);
+																		int intReflastCharIndex = strReference.lastIndexOf(strReferenceLastChar);
+																		splitvalue = strOccurencePath.substring(0, ((intReferenceIndex + intReflastCharIndex) + 1));
 																		splitvaluewithList.add(splitvalue);
 
 																	}
 																}
 
-																model.addAttribute("userchild", childValue);
-																model.addAttribute("userparent", parentValue);
-																model.addAttribute("pathsAfterSplit",
-																		splitvaluewithList);
+																model.addAttribute("userchild", strInstance);
+																model.addAttribute("userparent", strReference);
+																model.addAttribute("pathsAfterSplit", splitvaluewithList);
 
 															}
 														}
