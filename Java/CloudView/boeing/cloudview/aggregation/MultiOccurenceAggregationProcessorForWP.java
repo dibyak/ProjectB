@@ -27,7 +27,7 @@ public class MultiOccurenceAggregationProcessorForWP implements IJavaAllUpdatesA
 	private static final String META_NAME = "name";
 	private static final String META_TYPE = "type";
 	private static final String META_PID = "physicalid";
-	private static final String INDEXED_VALUE_SEPARATOR = "\r\n";
+	private static final String INDEXED_VALUE_SEPARATOR = "\n";
 	private static final String INST_REF_SEPARATOR = ":";
 	private static final String INST_REF_PAIR_SEPARATOR = "|";
 	private static final String NAME_PATH_PID_PATH_SEPARATOR = "~";
