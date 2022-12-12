@@ -1,4 +1,4 @@
-package com.exalead.boeing;
+package com.boeing.cloudview.search;
 
 import java.net.URL;
 import java.net.URLConnection;
