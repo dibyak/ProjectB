@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.boeing.cloudview.search;
 
 import java.net.URL;
 import java.net.URLConnection;
