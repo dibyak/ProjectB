@@ -1,11 +1,11 @@
 Manifest-Version: 1.0
 Created-By: Maven WAR Plugin 3.3.2
 Build-Jdk-Spec: 17
-Implementation-Title: demo
+Implementation-Title: exalead_boeing_poc
 Implementation-Version: 0.0.1-SNAPSHOT
 Main-Class: org.springframework.boot.loader.WarLauncher
-Start-Class: com.example.demo.DemoApplication
-Spring-Boot-Version: 2.7.6
+Start-Class: com.boeing.cloudview.search.CloudViewSearchApplication
+Spring-Boot-Version: 3.0.0
 Spring-Boot-Classes: WEB-INF/classes/
 Spring-Boot-Lib: WEB-INF/lib/
 Spring-Boot-Classpath-Index: WEB-INF/classpath.idx
