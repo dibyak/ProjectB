@@ -63,12 +63,20 @@ public class MainController {
 	 *                     application. Here, a data can be in any form such as
 	 *                     objects, strings, information from the database, etc.
 	 * @return used to send all the details to UI part to show the output
+	 * @throws Exception 
 	 */
 	@PostMapping("/index")
-	public String handelForm(@RequestParam("child") String strInstance, @RequestParam("parent") String strReference, Model model) {
+	public String handelForm(@RequestParam("externalid") String strInstance, @RequestParam("reference") String strReference, Model model) throws Exception {
 		Map<String, List> mlFinalData = new HashMap<>();
 		List<Map<String, String>> lFinaldata = new ArrayList<Map<String, String>>();
 		try {
+			
+			if(strInstance == "")
+			{
+				throw new Exception("External Id should not be blank.");
+				
+			}
+			
 			INSTANCE_NAME = strInstance;
 			REFERENCE_NAME = strReference;
 			Document docInstance = getDataFromSearchAPI("3dx_rel_instance_externalid:" + INSTANCE_NAME);
@@ -77,11 +85,15 @@ public class MainController {
 			for (Map mInstanceMeta : lmInstanceMetaResult) {
 				if (mInstanceMeta.containsKey("occurrence")) {
 					String strPath = (String) mInstanceMeta.get("occurrence");
+					//System.out.println("--strPath--" + strPath);
 
 					String[] sPaths = strPath.split("\n");
 					for (int k = 0; k < sPaths.length; k++) {
 						strPath = sPaths[k];
-						if (strPath != null && !"".equals(strPath) && strPath.contains(INSTANCE_NAME) && strPath.contains(REFERENCE_NAME)) {
+
+						if (strPath != null && !"".equals(strPath) && strPath.contains(INSTANCE_NAME)
+								&& (REFERENCE_NAME == null || REFERENCE_NAME != null && strPath.contains(REFERENCE_NAME))) {
+							//System.out.println("--strPath--" + strPath);
 							String strPhysicalIDPath = strPath.substring(strPath.lastIndexOf("~") + 1);
 							String strUpdatedPath = "";
 							String[] sNewPaths = strPhysicalIDPath.split("\\|");
@@ -93,21 +105,28 @@ public class MainController {
 								}
 							}
 							strUpdatedPath = strUpdatedPath.substring(0, strUpdatedPath.length() - 4);
-
+							
+							//System.out.println("--strPath--" + strPath);
+							
 							// Get the MfgProductionPlanning Details
 							Document docMFG = getDataFromSearchAPI("3dx_type:mfgproductionplanning AND " + strUpdatedPath);
 							List<Map<String, String>> lmMFGMetaResult = getMetaInformation(docMFG, Arrays.asList("mpart_pid"));
+							List<Map<String, String>> lmDelfMetaResult = null;
 							for (Map mMFGMeta : lmMFGMetaResult) {
 								if (mMFGMeta.containsKey("mpart_pid")) {
 									String strMPartID = (String) mMFGMeta.get("mpart_pid");
 									if (strMPartID != null && !"".equals(strMPartID)) {
 										// Call Search-API to get the MBOMInstance Data
 										Document docDelfIns = getDataFromSearchAPI("3dx_physicalid:" + strMPartID);
-										List<Map<String, String>> lmDelfMetaResult = getMetaInformation(docDelfIns, Arrays.asList("physicalid", "instance_externalid"));
+										lmDelfMetaResult = getMetaInformation(docDelfIns, Arrays.asList("physicalid", "instance_externalid"));
 										mlFinalData.put(strPath, lmDelfMetaResult);
 									}
+									
 								}
+								
 							}
+							
+							
 						}
 					}
 
@@ -119,6 +138,7 @@ public class MainController {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			throw e;
 		}
 		return "index";
 	}
@@ -132,13 +152,14 @@ public class MainController {
 	public Document getDataFromSearchAPI(String strQuery) throws Exception {
 		StringBuilder sbSearchURL = new StringBuilder();
 		Document document = null;
-		String strSearchURL = null;
+		String strSearchURL1 = null;
+		String strSearchURL2 = null;
 		try {
 			sbSearchURL = new StringBuilder("search-api/search?");
-			strSearchURL = URLEncoder.encode(strQuery, "UTF-8");
-			strSearchURL = new StringBuilder(EXA_URL_PROTOCOL).append("://").append(EXA_SERVER_NAME).append(":").append(EXA_SERVER_PORT).append("/").append(sbSearchURL.toString())
-					.append("q=").append(strSearchURL).toString();
-			URL url = new URL(strSearchURL);
+			strSearchURL1 = URLEncoder.encode(strQuery, "UTF-8");
+			strSearchURL2 = new StringBuilder(EXA_URL_PROTOCOL).append("://").append(EXA_SERVER_NAME).append(":").append(EXA_SERVER_PORT).append("/").append(sbSearchURL.toString())
+					.append("q=").append(strSearchURL1).toString();
+			URL url = new URL(strSearchURL2);
 			URLConnection urlConnection = url.openConnection();
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();

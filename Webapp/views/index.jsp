@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@page errorPage="error.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -97,25 +98,26 @@ td, th {
 <body>
 
 	<div class="navbar">
-		<a class="active" href="/"><i class="fa fa-fw fa-home"></i>
-			Exalead Dassault Systemes</a> <a href="/index"><i
-			class="fa fa-fw fa-info-circle"></i> Occurrence</a>
+		<a class="active" href="/"><i class="fa fa-fw fa-home"></i> Home</a> <a
+			href="/index"><i class="fa fa-fw fa-info-circle"></i> Occurrence</a>
 		<!-- <a href="/view">
 			<i class="fa fa-fw fa-cubes"></i> Search value
 		</a> -->
 
 	</div>
 
-	<h3 style="text-align: center;">Find Occurrence for Work Plan</h3>
+	<h3 style="text-align: center;">Find Multi-Occurrence for Work
+		Plan</h3>
 
 	<div class="container">
 		<form action="index" method="post">
-			<label for="fname">Enter Instance Value</label> <input type="text"
-				id="fname" name="child" placeholder="enter instance value..."
-				value="Loading OP_4_BOE_01.1"> <label for="lname">Enter
-				Reference Value</label> <input type="text" id="lname" name="parent"
-				placeholder="enter reference value..." value="wpl-17466195-00000007">
-			<input type="submit" value="Submit">
+			<label for="fname">Enter the External Id of the Instance</label> <input
+				type="text" id="fname" name="externalid"
+				placeholder="Enter External Id"> <label for="lname">Enter
+				the Name of the Reference, where Instance has multiple occurrence</label> <input
+				type="text" id="lname" name="reference"
+				placeholder="Enter Reference"> <input type="submit"
+				value="Submit">
 		</form>
 	</div>
 
@@ -125,19 +127,25 @@ td, th {
 			<c:choose>
 				<c:when test="${FinalData.size() > 0}">
 					<tr>
-						<th>Instance Value</th>
-						<th>Reference Value</th>
-						<th>Occurrence</th>
-						<th>Physical ID</th>
-						<th>Instance Externalid</th>
+						<th rowspan="2" style="text-align: center">Instance External
+							Id</th>
+						<th rowspan="2" style="text-align: center">Reference Name</th>
+						<th rowspan="2" style="text-align: center">Occurrence</th>
+						<th colspan="2" style="text-align: center">MPart Details</th>
+
+					</tr>
+					<tr>
+						<th style="text-align: center">Physical Id</th>
+						<th style="text-align: center">External Id</th>
 					</tr>
 
 					<tr>
 						<td rowspan="${FinalData.size()}">${InstanceValue}</td>
 						<td rowspan="${FinalData.size()}">${ReferenceValue}</td>
-
 						<c:forEach items="${FinalData}" var="datafinal1">
-							<td><c:out value="${datafinal1.key}"></c:out></td>
+							<c:set var="var1" value="${datafinal1.key}" />
+							<c:set var="var2" value="<span style='background-color: yellow;'>${ReferenceValue}</span>" />
+							<td>${fn:replace(var1, ReferenceValue,var2)}</td>
 							<c:forEach items="${datafinal1.value}" var="datafinallist">
 								<c:forEach items="${datafinallist}" var="datafinalmap">
 									<c:choose>
