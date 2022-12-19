@@ -73,12 +73,6 @@
                     </target-metas>
                     <data-type>STRING</data-type>
                 </select>
-				<select select="to[VPMInstance].from.name" translated="false">
-                    <target-metas>
-                        <meta-name>immediate_parent</meta-name>
-                    </target-metas>
-                    <data-type>STRING</data-type>
-                </select>
             </selects>
             <programs>
                 <program code="evaluate[revision == revisions.last]" meta-name="lastrevision"/>
@@ -430,7 +424,7 @@
     </relationship-meta-groups>
     <relationship-queries>
  		<query>
-			<name>to  VPMReference</name>
+			<name>VPMInstance</name>
 			<cloudview-types>
 				<name>rel_vpminstance</name>
 			</cloudview-types>
@@ -568,6 +562,9 @@
 	<path-queries>
     <query>
         <name>SemanticRelation</name>
+		<cloudview-types>
+				<name>semanticrelation</name>
+			</cloudview-types>
         <index-all-basics>true</index-all-basics>
         <index-all-attributes>true</index-all-attributes>
     </query>
