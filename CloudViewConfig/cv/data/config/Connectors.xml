@@ -1,4 +1,4 @@
-<connect:ConnectorList version="1669713107819" xmlns:bee="exa:exa.bee" xmlns:cdesc="exa:com.exalead.mercury.component.config.descriptor" xmlns:config="exa:exa.bee.config" xmlns:connect="exa:com.exalead.mercury.mami.connect.v10">
+<connect:ConnectorList version="1670840589676" xmlns:bee="exa:exa.bee" xmlns:cdesc="exa:com.exalead.mercury.component.config.descriptor" xmlns:config="exa:exa.bee.config" xmlns:connect="exa:com.exalead.mercury.mami.connect.v10">
     <connect:Connector name="default" managed="false" authenticationMode="public" generated="false">
         <connect:PushConfig buffer="true" triggerIndexingAfterScan="true" profilePushOperations="false" automaticRestartOnFailure="true"/>
         <connect:config/>
@@ -17,15 +17,19 @@
         <connect:SourcePreviewConfig allowHTMLPreview="true" allowImagePreview="true"/>
         <connect:SourceThumbnailsConfig allowThumbnails="true" precomputeThumbnails="false" precomputedThumbnailsHeight="120" precomputedThumbnailsWidth="120" homePageOnly="false"/>
     </connect:Connector>
-    <connect:Connector name="3DX_LOCAL" classId="java:com.exalead.enovia.er.connector.ERConnectorWrapper" managed="true" connectorServer="java0" buildGroup="cs0" pushAPIServer="cs0" authenticationMode="public" defaultDataModelClass="document" documentsType="document" generated="false">
+    <connect:Connector name="ENOVIA" classId="java:com.exalead.enovia.er.connector.ERConnectorWrapper" managed="true" connectorServer="java0" buildGroup="cs0" pushAPIServer="cs0" authenticationMode="public" documentsType="document" generated="false">
         <connect:PushConfig buffer="true" triggerIndexingAfterScan="false" profilePushOperations="false" automaticRestartOnFailure="true"/>
+        <connect:ConnectorScheduledScan scanMode="full">
+            <connect:scanModeConfig/>
+            <connect:SimpleConnectorSchedulingTrigger repeatInterval="180000" startTimestamp="1670783400000" endTimestamp="0"/>
+        </connect:ConnectorScheduledScan>
         <connect:config>
             <bee:KeyValue key="Connectivity" description="">
                 <bee:KeyValue key="0" description="On premise">
                     <bee:KeyValue key="Mode" value="3DSpace" type="enum:-,Local Context,REST,3DSpace" description="Local Context - Use this mode to connect to Enovia using the DMP studio agent via OCI. This is more efficient in situations that involve processing an extremely large number of transactions. This mode reduces the load on the HTTP ENOVIA server.&lt;br/&gt;REST - In this mode, you can easily crawl data from the ENOVIA Tomcat server in HTTP Rest mode. It allows you to connect remotely on a CAS-secured instance.&lt;br/&gt;3DSpace - New mode to connect to Enovia through the 3DSpace.&lt;br/&gt;Legacy XML Servlet - Use this mode to connect to Enovia via an XML servlet located on the Enovia server.. "/>
                     <bee:KeyValue key="Url" value="https://www.sgspc0813dx2022.com/3dspace" type="string" description="Specify the base URL of the 3DSpace | XML Servlet, or leave empty if you use Local Context."/>
                     <bee:KeyValue key="Login" value="3DEXP01" type="string" description="3DSpace | XML Servlet | Local Context user login for indexing documents. Read-access required."/>
-                    <bee:KeyValue key="Password" value="CCjxywEq5CZqAx461xwPB8fqjc2qKCI2xcmZd/YrNp2ILfTKfwMCEO4KxkBBNR1jcYvIV9d35xqDoouYdd7gRloewcBmGPyTG4jtX0v3aSqDxDVSBWVSrnum18JC0D/Dy7+Wet6SfI3OEjbyN1W5s5kOTgWgeHCN7D5QKrA2SP8LP2AG2wDc6Fz4qPKu9TFgtDkbD1pN7Y3QEsJPwmt4U5vThafipQM9AaivvtoSSYC+9ttdUSdLf4mFQoD8coMSYRx70GVUf3e+8UT1oxGPOExSr9pwQSTN5BpATKfQp6WFcSM7bjJRJtHReDiHzLrRFGTmInalq91dWtmIraZz5w==" type="encrypted" description="3DSpace | XML Servlet | Local Context password for the ENOVIA user."/>
+                    <bee:KeyValue key="Password" value="Passport1" type="encrypted" description="3DSpace | XML Servlet | Local Context password for the ENOVIA user."/>
                     <bee:KeyValue key="Role" type="string" description="Role that can acces ENOVIA."/>
                     <bee:KeyValue key="Vault" type="string" description="The vault. If defined, only data related to this vault is indexed. To be used only with 2017x or higher ENOVIA versions."/>
                     <bee:KeyValue key="EventMonitorName" type="string" description="The Event Monitor is used to detect added/modified/deleted elements, and send their IDs for CloudView updates."/>
@@ -36,7 +40,7 @@
             </bee:KeyValue>
             <bee:KeyValue key="Queries" description="">
                 <bee:KeyValue key="0" description="File">
-                    <bee:KeyValue key="QueryConfigurationFilePath" value="D:\Tejas\LocalEnvironment\R2022x\CloudView\win_b64\cv\data\config\enovia\EBOM_ER.xml" type="path" description="The path to the query configuration file"/>
+                    <bee:KeyValue key="QueryConfigurationFilePath" value="C:\DassaultSystemes\R2022x\CloudView\win_b64\cv\data\config\enovia\EBOM_ER.xml" type="path" description="The path to the query configuration file"/>
                     <bee:KeyValue key="ComponentConfigClassName" value="com.exalead.enovia.er.connector.config.query.ERConnectorFileBasedQueryConfig" type="hidden"/>
                 </bee:KeyValue>
             </bee:KeyValue>
@@ -51,7 +55,7 @@
                 </bee:KeyValue>
             </bee:KeyValue>
             <bee:KeyValue key="Advanced" description="Advanced config">
-                <bee:KeyValue key="PushedDocumentsBeforeCheckpoint" value="2000" type="numeric" description="Number of documents pushed into Push API Server before a checkpoint is pushed. A low value may lead to inefficient Push API multithreading"/>
+                <bee:KeyValue key="PushedDocumentsBeforeCheckpoint" value="500" type="numeric" description="Number of documents pushed into Push API Server before a checkpoint is pushed. A low value may lead to inefficient Push API multithreading"/>
                 <bee:KeyValue key="ConnectOnCheckConfig" value="false" type="boolean" description="If checked the connector will connect to ENOVIA on apply configuration"/>
                 <bee:KeyValue key="PushAPIThreadCount" value="2" type="numeric" description="Number of threads used to push data into the CloudView? Push API Server. It is useful when converting documents using PushAPI filters."/>
                 <bee:KeyValue key="PushAPIQueueSize" value="500" type="numeric" description="Size of the queue used to push data into the CloudView? Push API Server."/>

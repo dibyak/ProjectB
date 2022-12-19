@@ -1,4 +1,4 @@
-<dmv1:DataModelList version="1669888970758" xmlns:bee="exa:exa.bee" xmlns:dmv1="exa:com.exalead.datamodel.v10" xmlns:config="exa:exa.bee.config">
+<dmv1:DataModelList version="1670579702900" xmlns:bee="exa:exa.bee" xmlns:dmv1="exa:com.exalead.datamodel.v10" xmlns:config="exa:exa.bee.config">
     <dmv1:DataModel name="default_model" defaultClass="document" possibleLanguages="en,fr,de,es,it,nl,zh,ja,ko,ru,ar" storeAllMetas="false" traceAllMetas="true" expandNamedEntitiesLikeIn2014="false">
         <dmv1:DataModelClass name="document">
             <dmv1:ExpansionParams generateAnalysis="true" generateIndexSchema="true" generatePrefix="true" generateFacet="true" generateMeta="true"/>
@@ -151,7 +151,7 @@
         </dmv1:DataModelClass>
         <dmv1:DataModelClass name="3dx" parentClass="document">
             <dmv1:ExpansionParams generateAnalysis="true" generateIndexSchema="true" generatePrefix="true" generateFacet="true" generateMeta="true"/>
-            <dmv1:AlphanumProperty semanticType="metadata" indexInTextField="false" enumerated="false" overrideClassExpansionParams="false" dedicatedField="true" searchable="true" retrievable="true" ramBased="false" facet="false" disjunctiveRefines="false" arity="zero_or_one" name="id">
+            <dmv1:AlphanumProperty semanticType="metadata" indexInTextField="true" enumerated="false" overrideClassExpansionParams="false" dedicatedField="true" searchable="true" retrievable="true" ramBased="false" facet="false" disjunctiveRefines="false" arity="zero_or_one" name="id">
                 <dmv1:tags/>
                 <dmv1:AdvancedParams facetSortFunction="count" facetReverseSort="false" facetInHits="true" facetInNavigation="true" categoryFacetMaxPerLevel="100" facetMaxInHits="100" numericalBits="63" doublePrecision="4" enableTrustedQueries="false" gzip="true" unit="" patternSearchEnabled="false" forcedRankToTextMapping="3" detectTitle="false" generateAnalysis="false" generateIndexSchema="false" generatePrefix="false" generateFacet="false" generateMeta="false"/>
             </dmv1:AlphanumProperty>
@@ -175,9 +175,21 @@
                 <dmv1:tags/>
                 <dmv1:AdvancedParams facetSortFunction="count" facetReverseSort="false" facetInHits="true" facetInNavigation="true" categoryFacetMaxPerLevel="100" facetMaxInHits="100" numericalBits="63" doublePrecision="4" enableTrustedQueries="false" gzip="true" unit="" patternSearchEnabled="false" forcedRankToTextMapping="-1" detectTitle="false" generateAnalysis="false" generateIndexSchema="false" generatePrefix="false" generateFacet="false" generateMeta="false"/>
             </dmv1:AlphanumProperty>
+            <dmv1:AlphanumProperty semanticType="metadata" indexInTextField="true" enumerated="false" overrideClassExpansionParams="false" dedicatedField="true" searchable="true" retrievable="true" ramBased="false" facet="false" disjunctiveRefines="false" arity="zero_or_one" name="process_pid">
+                <dmv1:tags/>
+                <dmv1:AdvancedParams facetSortFunction="count" facetReverseSort="false" facetInHits="true" facetInNavigation="true" categoryFacetMaxPerLevel="100" facetMaxInHits="100" numericalBits="63" doublePrecision="4" enableTrustedQueries="false" gzip="true" unit="" patternSearchEnabled="false" forcedRankToTextMapping="3" detectTitle="false" generateAnalysis="false" generateIndexSchema="false" generatePrefix="false" generateFacet="false" generateMeta="false"/>
+            </dmv1:AlphanumProperty>
+            <dmv1:AlphanumProperty semanticType="metadata" indexInTextField="true" enumerated="false" overrideClassExpansionParams="false" dedicatedField="true" searchable="true" retrievable="true" ramBased="false" facet="false" disjunctiveRefines="false" arity="zero_or_one" name="mpart_pid">
+                <dmv1:tags/>
+                <dmv1:AdvancedParams facetSortFunction="count" facetReverseSort="false" facetInHits="true" facetInNavigation="true" categoryFacetMaxPerLevel="100" facetMaxInHits="100" numericalBits="63" doublePrecision="4" enableTrustedQueries="false" gzip="true" unit="" patternSearchEnabled="false" forcedRankToTextMapping="3" detectTitle="false" generateAnalysis="false" generateIndexSchema="false" generatePrefix="false" generateFacet="false" generateMeta="false"/>
+            </dmv1:AlphanumProperty>
             <dmv1:AlphanumProperty semanticType="metadata" indexInTextField="true" enumerated="false" overrideClassExpansionParams="false" dedicatedField="true" searchable="true" retrievable="true" ramBased="false" facet="true" disjunctiveRefines="false" arity="zero_or_one" name="occurrence">
                 <dmv1:tags/>
                 <dmv1:AdvancedParams facetSortFunction="count" facetReverseSort="false" facetInHits="true" facetInNavigation="true" categoryFacetMaxPerLevel="100" facetMaxInHits="100" numericalBits="63" doublePrecision="4" enableTrustedQueries="false" gzip="true" unit="" patternSearchEnabled="false" forcedRankToTextMapping="3" detectTitle="false" generateAnalysis="false" generateIndexSchema="false" generatePrefix="false" generateFacet="false" generateMeta="false"/>
+            </dmv1:AlphanumProperty>
+            <dmv1:AlphanumProperty semanticType="metadata" indexInTextField="false" enumerated="false" overrideClassExpansionParams="false" dedicatedField="true" searchable="true" retrievable="true" ramBased="false" facet="false" disjunctiveRefines="false" arity="zero_or_one" name="elements">
+                <dmv1:tags/>
+                <dmv1:AdvancedParams facetSortFunction="count" facetReverseSort="false" facetInHits="true" facetInNavigation="true" categoryFacetMaxPerLevel="100" facetMaxInHits="100" numericalBits="63" doublePrecision="4" enableTrustedQueries="false" gzip="true" unit="" patternSearchEnabled="false" forcedRankToTextMapping="-1" detectTitle="false" generateAnalysis="false" generateIndexSchema="false" generatePrefix="false" generateFacet="false" generateMeta="false"/>
             </dmv1:AlphanumProperty>
         </dmv1:DataModelClass>
         <dmv1:DataModelClass name="createassembly" parentClass="3dx_type">
@@ -294,10 +306,6 @@
                 <dmv1:AdvancedParams facetSortFunction="count" facetReverseSort="false" facetInHits="true" facetInNavigation="true" categoryFacetMaxPerLevel="100" facetMaxInHits="100" numericalBits="63" doublePrecision="4" enableTrustedQueries="false" gzip="true" unit="" patternSearchEnabled="false" forcedRankToTextMapping="3" detectTitle="false" generateAnalysis="false" generateIndexSchema="false" generatePrefix="false" generateFacet="false" generateMeta="false"/>
             </dmv1:AlphanumProperty>
             <dmv1:AlphanumProperty semanticType="metadata" indexInTextField="true" enumerated="false" overrideClassExpansionParams="false" dedicatedField="true" searchable="true" retrievable="true" ramBased="false" facet="false" disjunctiveRefines="false" arity="zero_or_one" name="occurrence_id">
-                <dmv1:tags/>
-                <dmv1:AdvancedParams facetSortFunction="count" facetReverseSort="false" facetInHits="true" facetInNavigation="true" categoryFacetMaxPerLevel="100" facetMaxInHits="100" numericalBits="63" doublePrecision="4" enableTrustedQueries="false" gzip="true" unit="" patternSearchEnabled="false" forcedRankToTextMapping="3" detectTitle="false" generateAnalysis="false" generateIndexSchema="false" generatePrefix="false" generateFacet="false" generateMeta="false"/>
-            </dmv1:AlphanumProperty>
-            <dmv1:AlphanumProperty semanticType="metadata" indexInTextField="true" enumerated="false" overrideClassExpansionParams="false" dedicatedField="true" searchable="true" retrievable="true" ramBased="false" facet="false" disjunctiveRefines="false" arity="zero_or_one" name="immediate_parent">
                 <dmv1:tags/>
                 <dmv1:AdvancedParams facetSortFunction="count" facetReverseSort="false" facetInHits="true" facetInNavigation="true" categoryFacetMaxPerLevel="100" facetMaxInHits="100" numericalBits="63" doublePrecision="4" enableTrustedQueries="false" gzip="true" unit="" patternSearchEnabled="false" forcedRankToTextMapping="3" detectTitle="false" generateAnalysis="false" generateIndexSchema="false" generatePrefix="false" generateFacet="false" generateMeta="false"/>
             </dmv1:AlphanumProperty>

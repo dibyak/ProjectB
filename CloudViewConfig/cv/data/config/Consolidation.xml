@@ -1,4 +1,4 @@
-<conso:ConsolidationConfigList version="1670230120850" xmlns:bee="exa:exa.bee" xmlns:edit="exa:com.exalead.editor.v10" xmlns:index="exa:com.exalead.mercury.mami.indexing.v10" xmlns:conso="exa:com.exalead.mercury.mami.consolidation.v10" xmlns:config="exa:exa.bee.config">
+<conso:ConsolidationConfigList version="1670580201655" xmlns:bee="exa:exa.bee" xmlns:edit="exa:com.exalead.editor.v10" xmlns:index="exa:com.exalead.mercury.mami.indexing.v10" xmlns:conso="exa:com.exalead.mercury.mami.consolidation.v10" xmlns:config="exa:exa.bee.config">
     <conso:ConsolidationConfig name="cc0_standard" nbThreads="4" maxNativeMemoryConsumptionThreshold="enabled" maxNativeMemoryConsumptionInMB="2048">
         <conso:TransformationProcessorConfigList>
             <conso:CustomJavaTransformationProcessor classId="com.exalead.consobox.transformation.AddArcTransformationProcessor" name="boe_CreateROVirtualNodeForPhysicalId" description="Add arcs to documents based on specified types and target URIs patterns (Ex:'{meta1}_{meta2}')" enabled="true" mime="text/x-jar" perfMonitored="false" context="create/update">
@@ -30,11 +30,11 @@
                     </bee:KeyValue>
                 </conso:config>
             </conso:CustomJavaTransformationProcessor>
-            <conso:CustomJavaTransformationProcessor classId="com.exalead.consobox.transformation.AddArcTransformationProcessor" name="boe_CreateSRPathVirtualNodeForPhysicalId" description="Add arcs to documents based on specified types and target URIs patterns (Ex:'{meta1}_{meta2}')" enabled="false" mime="text/x-jar" perfMonitored="false" context="create/update">
+            <conso:CustomJavaTransformationProcessor classId="com.exalead.consobox.transformation.AddArcTransformationProcessor" name="boe_CreateSRPathVirtualNodeForPhysicalId" description="Add arcs to documents based on specified types and target URIs patterns (Ex:'{meta1}_{meta2}')" enabled="true" mime="text/x-jar" perfMonitored="false" context="create/update">
                 <conso:config>
                     <bee:KeyValue key="Type" value="SemanticRelation"/>
                     <bee:KeyValue key="Condition" value="always" type="string" description="A condition that dictates when to perform an action.&lt;br&gt;Can be &quot;always&quot;, &quot;never&quot; or a JEXL formatted expression, on meta or directives&lt;br&gt;Ex:&lt;br&gt;    meta.original_source=='source1' &amp;&amp; directive.datamodel_class=='class1'"/>
-                    <bee:KeyValue key="Verbose" value="false" type="boolean" description="Verbose mode (default false); if true, logs information about arcs names, nodes creation...&lt;br&gt;Common attribute for consolidation processors, the implementation of the processor is responsible for the usage of this attribute.&lt;br&gt;It is sometimes useful to keep logs level into INFO and use a verbose mode in a single component."/>
+                    <bee:KeyValue key="Verbose" value="true" type="boolean" description="Verbose mode (default false); if true, logs information about arcs names, nodes creation...&lt;br&gt;Common attribute for consolidation processors, the implementation of the processor is responsible for the usage of this attribute.&lt;br&gt;It is sometimes useful to keep logs level into INFO and use a verbose mode in a single component."/>
                     <bee:KeyValue key="Customization" value="true" type="hidden" description="Is the processor a project customization or a standard application config, default value is 'true' and can be set to false during packaging for standard apps, this options aims to facilitate projects migrations"/>
                     <bee:KeyValue key="MetaPattern" value="[a-zA-Z0-9_]+" type="hidden" description="Meta data name pattern (default '[a-zA-Z0-9_]+'), this property is use by some aggregation or transformation processors to forge URLs based on metadata values"/>
                     <bee:KeyValue key="Profile" value="false" type="hidden" description="The goal of this property is to enable profiling, aggregation or transformation abstract class can handle profiling information and log number of processed documents and average execution time (per task)"/>
@@ -59,11 +59,11 @@
                     </bee:KeyValue>
                 </conso:config>
             </conso:CustomJavaTransformationProcessor>
-            <conso:CustomJavaTransformationProcessor classId="com.exalead.consobox.transformation.AddArcTransformationProcessor" name="boe_CreateBOVirtualNodeForPhysicalId" description="Add arcs to documents based on specified types and target URIs patterns (Ex:'{meta1}_{meta2}')" enabled="false" mime="text/x-jar" perfMonitored="false" context="create/update">
+            <conso:CustomJavaTransformationProcessor classId="com.exalead.consobox.transformation.AddArcTransformationProcessor" name="boe_CreateBOVirtualNodeForPhysicalId" description="Add arcs to documents based on specified types and target URIs patterns (Ex:'{meta1}_{meta2}')" enabled="true" mime="text/x-jar" perfMonitored="false" context="create/update">
                 <conso:config>
                     <bee:KeyValue key="Type"/>
                     <bee:KeyValue key="Condition" value="always" type="string" description="A condition that dictates when to perform an action.&lt;br&gt;Can be &quot;always&quot;, &quot;never&quot; or a JEXL formatted expression, on meta or directives&lt;br&gt;Ex:&lt;br&gt;    meta.original_source=='source1' &amp;&amp; directive.datamodel_class=='class1'"/>
-                    <bee:KeyValue key="Verbose" value="false" type="boolean" description="Verbose mode (default false); if true, logs information about arcs names, nodes creation...&lt;br&gt;Common attribute for consolidation processors, the implementation of the processor is responsible for the usage of this attribute.&lt;br&gt;It is sometimes useful to keep logs level into INFO and use a verbose mode in a single component."/>
+                    <bee:KeyValue key="Verbose" value="true" type="boolean" description="Verbose mode (default false); if true, logs information about arcs names, nodes creation...&lt;br&gt;Common attribute for consolidation processors, the implementation of the processor is responsible for the usage of this attribute.&lt;br&gt;It is sometimes useful to keep logs level into INFO and use a verbose mode in a single component."/>
                     <bee:KeyValue key="Customization" value="true" type="hidden" description="Is the processor a project customization or a standard application config, default value is 'true' and can be set to false during packaging for standard apps, this options aims to facilitate projects migrations"/>
                     <bee:KeyValue key="MetaPattern" value="[a-zA-Z0-9_]+" type="hidden" description="Meta data name pattern (default '[a-zA-Z0-9_]+'), this property is use by some aggregation or transformation processors to forge URLs based on metadata values"/>
                     <bee:KeyValue key="Profile" value="false" type="hidden" description="The goal of this property is to enable profiling, aggregation or transformation abstract class can handle profiling information and log number of processed documents and average execution time (per task)"/>
@@ -90,7 +90,7 @@
                     </bee:KeyValue>
                 </conso:config>
             </conso:CustomJavaTransformationProcessor>
-            <conso:CustomJavaTransformationProcessor classId="com.exalead.consobox.transformation.AddArcTransformationProcessor" name="boe_CreateROVirtualNodeForPhysicalId_Mbom_Pp" description="Add arcs to documents based on specified types and target URIs patterns (Ex:'{meta1}_{meta2}')" enabled="false" mime="text/x-jar" perfMonitored="false" context="create/update">
+            <conso:CustomJavaTransformationProcessor classId="com.exalead.consobox.transformation.AddArcTransformationProcessor" name="boe_CreateROVirtualNodeForPhysicalId_Mbom_Pp" description="Add arcs to documents based on specified types and target URIs patterns (Ex:'{meta1}_{meta2}')" enabled="true" mime="text/x-jar" perfMonitored="false" context="create/update">
                 <conso:config>
                     <bee:KeyValue key="Type"/>
                     <bee:KeyValue key="Condition" value="always" type="string" description="A condition that dictates when to perform an action.&lt;br&gt;Can be &quot;always&quot;, &quot;never&quot; or a JEXL formatted expression, on meta or directives&lt;br&gt;Ex:&lt;br&gt;    meta.original_source=='source1' &amp;&amp; directive.datamodel_class=='class1'"/>
@@ -112,6 +112,37 @@
                             <bee:KeyValue key="Condition" type="string" description="Create arc only for matching condition (Empty=true).&lt;br&gt;Condition format (on meta or directives)&lt;br&gt;Ex:&lt;br&gt;meta.original_source=='source1' &amp;&amp; directive.datamodel_class=='class1'"/>
                             <bee:KeyValue key="CreateTargetNode" value="false" type="boolean" description="Create target virtual node (document not pushed by any connector)."/>
                             <bee:KeyValue key="KeepMetas" description="Metadata names to copy in target node (if target node is created by transformation processor)"/>
+                            <bee:KeyValue key="TargetNodeTypes" description="Target node type(s) (if target node is created by transformation processor)">
+                                <bee:KeyValue key="0" value="VirtualPhysicalId" type="string"/>
+                            </bee:KeyValue>
+                        </bee:KeyValue>
+                    </bee:KeyValue>
+                </conso:config>
+            </conso:CustomJavaTransformationProcessor>
+            <conso:CustomJavaTransformationProcessor classId="com.exalead.consobox.transformation.AddArcTransformationProcessor" name="boe_CreateBOVirtualNodeForPhysicalId_MBOM_PP" description="Add arcs to documents based on specified types and target URIs patterns (Ex:'{meta1}_{meta2}')" enabled="false" mime="text/x-jar" perfMonitored="false" context="create/update">
+                <conso:config>
+                    <bee:KeyValue key="Type"/>
+                    <bee:KeyValue key="Condition" value="always" type="string" description="A condition that dictates when to perform an action.&lt;br&gt;Can be &quot;always&quot;, &quot;never&quot; or a JEXL formatted expression, on meta or directives&lt;br&gt;Ex:&lt;br&gt;    meta.original_source=='source1' &amp;&amp; directive.datamodel_class=='class1'"/>
+                    <bee:KeyValue key="Verbose" value="false" type="boolean" description="Verbose mode (default false); if true, logs information about arcs names, nodes creation...&lt;br&gt;Common attribute for consolidation processors, the implementation of the processor is responsible for the usage of this attribute.&lt;br&gt;It is sometimes useful to keep logs level into INFO and use a verbose mode in a single component."/>
+                    <bee:KeyValue key="Customization" value="true" type="hidden" description="Is the processor a project customization or a standard application config, default value is 'true' and can be set to false during packaging for standard apps, this options aims to facilitate projects migrations"/>
+                    <bee:KeyValue key="MetaPattern" value="[a-zA-Z0-9_]+" type="hidden" description="Meta data name pattern (default '[a-zA-Z0-9_]+'), this property is use by some aggregation or transformation processors to forge URLs based on metadata values"/>
+                    <bee:KeyValue key="Profile" value="false" type="hidden" description="The goal of this property is to enable profiling, aggregation or transformation abstract class can handle profiling information and log number of processed documents and average execution time (per task)"/>
+                    <bee:KeyValue key="ProfileId"/>
+                    <bee:KeyValue key="DocTypes">
+                        <bee:KeyValue key="0" value="mfgproductionplanning" type="dmc:@"/>
+                    </bee:KeyValue>
+                    <bee:KeyValue key="Arcs">
+                        <bee:KeyValue key="0">
+                            <bee:KeyValue key="ForgeMode" value="JEXL_EXPRESSION" type="enum:PATTERN,JEXL_EXPRESSION,JEXL_SCRIPT" description="Forge mode, can be based on simple pattern or JEXL expression or script. Only JEXL modes allow to execute complex operations (for example sum up metadata values, check condition in a script...)"/>
+                            <bee:KeyValue key="AvoidComplexCombinatory" value="false" type="boolean" description="Avoid complex combinatory (if activated and more than one meta used to forge the URI is multivalued, the arc will not be created)"/>
+                            <bee:KeyValue key="Direction" value="TO" type="enum:FROM,TO" description="Arc direction"/>
+                            <bee:KeyValue key="Uri" value="physicalid" type="string" description="URI pattern (to forge with meta values). Use curly brackets to insert the value of a meta ; the meta name must only contain alphanumerical characters ([0-9a-zA-Z_]). For example: URI pattern 'source1_{id}' will generate URI 'source1_125AGH' if document has meta('id')='125AGH'."/>
+                            <bee:KeyValue key="Type" value="toVirtualPhysicalIdRel" type="string" description="Relation name"/>
+                            <bee:KeyValue key="Condition" type="string" description="Create arc only for matching condition (Empty=true).&lt;br&gt;Condition format (on meta or directives)&lt;br&gt;Ex:&lt;br&gt;meta.original_source=='source1' &amp;&amp; directive.datamodel_class=='class1'"/>
+                            <bee:KeyValue key="CreateTargetNode" value="false" type="boolean" description="Create target virtual node (document not pushed by any connector)."/>
+                            <bee:KeyValue key="KeepMetas" description="Metadata names to copy in target node (if target node is created by transformation processor)">
+                                <bee:KeyValue key="0" value="physicalid" type="string"/>
+                            </bee:KeyValue>
                             <bee:KeyValue key="TargetNodeTypes" description="Target node type(s) (if target node is created by transformation processor)">
                                 <bee:KeyValue key="0" value="VirtualPhysicalId" type="string"/>
                             </bee:KeyValue>
@@ -1178,7 +1209,7 @@
                     </bee:KeyValue>
                 </conso:config>
             </conso:CustomJavaAggregationProcessor>
-            <conso:CustomJavaAggregationProcessor classId="com.exalead.consobox.aggregation.AggregateMetasProcessor" name="boe_GetImplementLinkMbomPp" description="Add metadata fom matching path documents based on specified paths and meta neme patterns" enabled="true" mime="text/x-jar" perfMonitored="false" context="create/update">
+            <conso:CustomJavaAggregationProcessor classId="com.exalead.consobox.aggregation.AggregateMetasProcessor" name="boe_GetImplementLinkMbompp" description="Add metadata fom matching path documents based on specified paths and meta neme patterns" enabled="true" mime="text/x-jar" perfMonitored="false" context="create/update">
                 <conso:config>
                     <bee:KeyValue key="Customization" value="true" type="hidden" description="Is the processor a project customization or a standard application config, default value is 'true' and can be set to false during packaging for standard apps, this options aims to facilitate projects migrations"/>
                     <bee:KeyValue key="Profile" value="false" type="hidden" description="The goal of this property is to enable profiling, aggregation or transformation abstract class can handle profiling information and log number of processed documents and average execution time (per task)"/>
@@ -1318,41 +1349,103 @@
                     </bee:KeyValue>
                 </conso:config>
             </conso:CustomJavaAggregationProcessor>
-            <conso:CustomJavaAggregationProcessor classId="boeing_exalead.consobox.aggregation.MultiOccurenceAggregationProcessorForWP" name="boe_Occurrence_Loading" description="This Multi Occurence Aggregation Processor for Work Plan" enabled="true" mime="text/x-jar" perfMonitored="false" context="create/update">
+            <conso:CustomJavaAggregationProcessor classId="com.exalead.consobox.aggregation.AggregateMetasProcessor" name="boe_role" description="Add metadata fom matching path documents based on specified paths and meta neme patterns" enabled="true" mime="text/x-jar" perfMonitored="false" context="create/update">
                 <conso:config>
-                    <bee:KeyValue key="TargetNode" value="rel_dellmiloadingoperationinstance" type="string" description="Processor call for this Node"/>
-                    <bee:KeyValue key="RelName" value="fromDELLmiLoadingOperationInstance"/>
+                    <bee:KeyValue key="Customization" value="true" type="hidden" description="Is the processor a project customization or a standard application config, default value is 'true' and can be set to false during packaging for standard apps, this options aims to facilitate projects migrations"/>
+                    <bee:KeyValue key="Profile" value="false" type="hidden" description="The goal of this property is to enable profiling, aggregation or transformation abstract class can handle profiling information and log number of processed documents and average execution time (per task)"/>
+                    <bee:KeyValue key="Type"/>
+                    <bee:KeyValue key="Verbose" value="false" type="boolean" description="Verbose mode (default false); if true, logs information about arcs names, nodes creation...&lt;br&gt;Common attribute for consolidation processors, the implementation of the processor is responsible for the usage of this attribute.&lt;br&gt;It is sometimes useful to keep logs level into INFO and use a verbose mode in a single component."/>
+                    <bee:KeyValue key="ProfileId"/>
+                    <bee:KeyValue key="SkipInFetch" value="false" type="boolean" description="Skip execution in fetch operation (ignore this parameter in consolidation transformation processor)"/>
+                    <bee:KeyValue key="MetaPattern" value="[a-zA-Z0-9_]+" type="hidden" description="Meta data name pattern (default '[a-zA-Z0-9_]+'), this property is use by some aggregation or transformation processors to forge URLs based on metadata values"/>
+                    <bee:KeyValue key="Condition" value="always" type="string" description="A condition that dictates when to perform an action.&lt;br&gt;Can be &quot;always&quot;, &quot;never&quot; or a JEXL formatted expression, on meta or directives&lt;br&gt;Ex:&lt;br&gt;    meta.original_source=='source1' &amp;&amp; directive.datamodel_class=='class1'"/>
+                    <bee:KeyValue key="OptimizeImpactDetection" value="true" type="hidden" description="Optimize Impact Detection"/>
+                    <bee:KeyValue key="Rules">
+                        <bee:KeyValue key="0">
+                            <bee:KeyValue key="IntermediateLevels" value="false" type="boolean" description="Collect intermediate levels meta values (default false)&lt;br&gt;If set to true --&gt; don't get only end document of path but also intermediate nodes."/>
+                            <bee:KeyValue key="ReversePath" value="false" type="boolean" description="Reverse matching paths (can be useful to implement conditions based on target node of path)"/>
+                            <bee:KeyValue key="ImpactDetection" value="true" type="boolean" description="Generate impact detection rule (can be disabled to avoid huge impact detection in some cases)"/>
+                            <bee:KeyValue key="Comment" type="string" description="Comment, used by project documentation generator"/>
+                            <bee:KeyValue key="Paths" description="Documents paths to get for aggregation">
+                                <bee:KeyValue key="0" value="eno:path:owner" type="string"/>
+                            </bee:KeyValue>
+                            <bee:KeyValue key="MetaRules" description="Metadata rules (rules used to propagate metas)">
+                                <bee:KeyValue key="0">
+                                    <bee:KeyValue key="Override" value="false" type="boolean" description="Override meta in source document"/>
+                                    <bee:KeyValue key="LocalOnly" value="false" type="boolean" description="This meta is only fetched to be used in future node condition, it can be useful to check if one node of the path contains one specific meta value before fetching metas in another node"/>
+                                    <bee:KeyValue key="Mode" value="copyall" type="enum:uniquevalue,copyall,concat,concatunique,override" description="Metadata mode (keep unique values, add, override ...)"/>
+                                    <bee:KeyValue key="FetchMetaMode" value="FORGE" type="enum:NAME,PATTERN,FORGE,JEXL_EXPRESSION,JEXL_SCRIPT" description="Fetch metadata matching mode --&gt; copy document metadata based on metadata names, detect metadata based on pattern is more costly (need to check each metadata in document metadata list). Meta value can also be forged using multiple meta values."/>
+                                    <bee:KeyValue key="TargetName" value="mpart_pid" type="string" description="Target metadata name.&lt;br&gt;Use '{metaname}' pattern in String to use original meta name, for example to prefix by 'agg_' use 'agg_{metaname}'.&lt;br&gt;If empty : keep original metadata name."/>
+                                    <bee:KeyValue key="Comment" type="string" description="Comment, used by project documentation generator"/>
+                                    <bee:KeyValue key="MetaNames" description="Depending on forge mode, can be '[metaname]' or 'source.meta1 + target.meta2'">
+                                        <bee:KeyValue key="0" value="{lastPID}" type="string"/>
+                                    </bee:KeyValue>
+                                    <bee:KeyValue key="Types" description="Documents types to get for aggregation (if target document type is not in this list, the document metadatas are not copied)"/>
+                                    <bee:KeyValue key="Conditions" description="conditions to keep path, based on source and target documents for example '{source.meta1}=={target.meta2}'">
+                                        <bee:KeyValue key="0" value="{target.lastRole} == {'51'}" type="string"/>
+                                    </bee:KeyValue>
+                                </bee:KeyValue>
+                                <bee:KeyValue key="1">
+                                    <bee:KeyValue key="Override" value="false" type="boolean" description="Override meta in source document"/>
+                                    <bee:KeyValue key="LocalOnly" value="false" type="boolean" description="This meta is only fetched to be used in future node condition, it can be useful to check if one node of the path contains one specific meta value before fetching metas in another node"/>
+                                    <bee:KeyValue key="Mode" value="copyall" type="enum:uniquevalue,copyall,concat,concatunique,override" description="Metadata mode (keep unique values, add, override ...)"/>
+                                    <bee:KeyValue key="FetchMetaMode" value="FORGE" type="enum:NAME,PATTERN,FORGE,JEXL_EXPRESSION,JEXL_SCRIPT" description="Fetch metadata matching mode --&gt; copy document metadata based on metadata names, detect metadata based on pattern is more costly (need to check each metadata in document metadata list). Meta value can also be forged using multiple meta values."/>
+                                    <bee:KeyValue key="TargetName" value="process_pid" type="string" description="Target metadata name.&lt;br&gt;Use '{metaname}' pattern in String to use original meta name, for example to prefix by 'agg_' use 'agg_{metaname}'.&lt;br&gt;If empty : keep original metadata name."/>
+                                    <bee:KeyValue key="Comment" type="string" description="Comment, used by project documentation generator"/>
+                                    <bee:KeyValue key="MetaNames" description="Depending on forge mode, can be '[metaname]' or 'source.meta1 + target.meta2'">
+                                        <bee:KeyValue key="0" value="{elements}" type="string"/>
+                                    </bee:KeyValue>
+                                    <bee:KeyValue key="Types" description="Documents types to get for aggregation (if target document type is not in this list, the document metadatas are not copied)"/>
+                                    <bee:KeyValue key="Conditions" description="conditions to keep path, based on source and target documents for example '{source.meta1}=={target.meta2}'">
+                                        <bee:KeyValue key="0" value="{target.lastRole} == {'52'}" type="string"/>
+                                    </bee:KeyValue>
+                                </bee:KeyValue>
+                            </bee:KeyValue>
+                            <bee:KeyValue key="Types" description="Documents types to get for aggregation (if target document type is not in this list, the document metadatas are not copied)"/>
+                            <bee:KeyValue key="Conditions" description="conditions to keep path, based on source and target documents or path collected metadata for example 'source.meta1==target.meta2' or 'path.meta1==target.meta2'"/>
+                            <bee:KeyValue key="Sorter" description="Nodes sorter, not mandatory">
+                                <bee:KeyValue key="Format" type="string" description="Metadata format for date and values for explicit order"/>
+                                <bee:KeyValue key="MetaType" value="ALPHANUM" type="enum:ALPHANUM,DATE,INTEGER,DOUBLE" description="Metadata type (Alphanum, date, integer or double)"/>
+                                <bee:KeyValue key="SortMode" value="ASC" type="enum:ASC,DESC,EXPLICIT" description="Sort order"/>
+                                <bee:KeyValue key="Metas" description="Metadata names used for sort"/>
+                            </bee:KeyValue>
+                            <bee:KeyValue key="PartNames" description="Part names (regular expression pattern)"/>
+                        </bee:KeyValue>
+                    </bee:KeyValue>
+                    <bee:KeyValue key="FetchRules"/>
+                    <bee:KeyValue key="DocTypes">
+                        <bee:KeyValue key="0" value="mfgproductionplanning" type="dmc:@"/>
+                    </bee:KeyValue>
+                </conso:config>
+            </conso:CustomJavaAggregationProcessor>
+            <conso:CustomJavaAggregationProcessor classId="boeing.cloudview.aggregation.MultiOccurenceAggregationProcessorForWP" name="boe_loadinginstance" description="Multi Occurence Aggregation Processor for Work Plan" enabled="true" mime="text/x-jar" perfMonitored="false" context="create/update">
+                <conso:config>
+                    <bee:KeyValue key="TargetNode" value="rel_dellmiloadingoperationinstance"/>
                     <bee:KeyValue key="TargetMeta" value="occurrence"/>
                 </conso:config>
             </conso:CustomJavaAggregationProcessor>
-            <conso:CustomJavaAggregationProcessor classId="boeing_exalead.consobox.aggregation.MultiOccurenceAggregationProcessorForWP" name="boe_Occurrence_General" description="This Multi Occurence Aggregation Processor for Work Plan" enabled="true" mime="text/x-jar" perfMonitored="false" context="create/update">
+            <conso:CustomJavaAggregationProcessor classId="boeing.cloudview.aggregation.MultiOccurenceAggregationProcessorForWP" name="boe_generalinstance" description="Multi Occurence Aggregation Processor for Work Plan" enabled="true" mime="text/x-jar" perfMonitored="false" context="create/update">
                 <conso:config>
-                    <bee:KeyValue key="TargetNode" value="rel_dellmigeneraloperationinstance" type="string" description="Processor call for this Node"/>
-                    <bee:KeyValue key="RelName" value="fromDELLmiGeneralOperationInstance"/>
+                    <bee:KeyValue key="TargetNode" value="rel_dellmigeneraloperationinstance"/>
                     <bee:KeyValue key="TargetMeta" value="occurrence"/>
                 </conso:config>
             </conso:CustomJavaAggregationProcessor>
-            <conso:CustomJavaAggregationProcessor classId="boeing_exalead.consobox.aggregation.MultiOccurenceAggregationProcessorForWP" name="boe_Occurrence_Unloading" description="This Multi Occurence Aggregation Processor for Work Plan" enabled="true" mime="text/x-jar" perfMonitored="false" context="create/update">
+            <conso:CustomJavaAggregationProcessor classId="boeing.cloudview.aggregation.MultiOccurenceAggregationProcessorForWP" name="boe_unloadinginstance" description="Multi Occurence Aggregation Processor for Work Plan" enabled="true" mime="text/x-jar" perfMonitored="false" context="create/update">
                 <conso:config>
-                    <bee:KeyValue key="TargetNode" value="rel_dellmiunloadingoperationinstance" type="string" description="Processor call for this Node"/>
-                    <bee:KeyValue key="RelName" value="fromDELLmiUnloadingOperationInstance"/>
+                    <bee:KeyValue key="TargetNode" value="rel_dellmiunloadingoperationinstance"/>
                     <bee:KeyValue key="TargetMeta" value="occurrence"/>
                 </conso:config>
             </conso:CustomJavaAggregationProcessor>
-            <conso:CustomJavaAggregationProcessor classId="boeing_exalead.consobox.aggregation.MultiOccurenceAggregationProcessor" name="boe_Occurrence_EBOM" description="This Multi Occurence Aggregation Processor" enabled="true" mime="text/x-jar" perfMonitored="false" context="create/update">
+            <conso:CustomJavaAggregationProcessor classId="boeing.cloudview.aggregation.MultiOccurenceAggregationProcessorForWP" name="boe_ebominstance" description="Multi Occurence Aggregation Processor for Work Plan" enabled="true" mime="text/x-jar" perfMonitored="false" context="create/update">
                 <conso:config>
-                    <bee:KeyValue key="TypePath" value="fromVPMInstance"/>
-                    <bee:KeyValue key="RelPath" value="toVPMInstance"/>
+                    <bee:KeyValue key="TargetNode" value="rel_vpminstance"/>
                     <bee:KeyValue key="TargetMeta" value="occurrence"/>
-                    <bee:KeyValue key="NodeType" value="rel_vpminstance"/>
                 </conso:config>
             </conso:CustomJavaAggregationProcessor>
-            <conso:CustomJavaAggregationProcessor classId="boeing_exalead.consobox.aggregation.MultiOccurenceAggregationProcessor" name="boe_Occurrence_MBOM" description="This Multi Occurence Aggregation Processor" enabled="true" mime="text/x-jar" perfMonitored="false" context="create/update">
+            <conso:CustomJavaAggregationProcessor classId="boeing.cloudview.aggregation.MultiOccurenceAggregationProcessorForWP" name="boe_mbominstance" description="Multi Occurence Aggregation Processor for Work Plan" enabled="true" mime="text/x-jar" perfMonitored="false" context="create/update">
                 <conso:config>
-                    <bee:KeyValue key="TypePath" value="fromDELFmiFunctionIdentifiedInstance"/>
-                    <bee:KeyValue key="RelPath" value="toDELFmiFunctionIdentifiedInstance"/>
+                    <bee:KeyValue key="TargetNode" value="rel_delfmifunctionidentifiedinstance"/>
                     <bee:KeyValue key="TargetMeta" value="occurrence"/>
-                    <bee:KeyValue key="NodeType" value="rel_delfmifunctionidentifiedinstance"/>
                 </conso:config>
             </conso:CustomJavaAggregationProcessor>
         </conso:AggregationProcessorConfigList>
