@@ -98,11 +98,7 @@ td, th {
 <body>
 
 	<div class="navbar">
-		<a class="active" href="/"><i class="fa fa-fw fa-home"></i> Home</a> <a
-			href="/index"><i class="fa fa-fw fa-info-circle"></i> Occurrence</a>
-		<!-- <a href="/view">
-			<i class="fa fa-fw fa-cubes"></i> Search value
-		</a> -->
+		<a class="active" href="/"><i class="fa fa-fw fa-home"></i> Home</a>
 
 	</div>
 
@@ -110,7 +106,7 @@ td, th {
 		Plan</h3>
 
 	<div class="container">
-		<form action="index" method="post">
+		<form action="/" method="post">
 			<label for="fname">Enter the External Id of the Instance</label> <input
 				type="text" id="fname" name="externalid"
 				placeholder="Enter External Id"> <label for="lname">Enter
@@ -131,7 +127,7 @@ td, th {
 							Id</th>
 						<th rowspan="2" style="text-align: center">Reference Name</th>
 						<th rowspan="2" style="text-align: center">Occurrence</th>
-						<th colspan="2" style="text-align: center">MPart Details</th>
+						<th colspan="2" style="text-align: center">Provided Instance Details</th>
 
 					</tr>
 					<tr>

@@ -35,15 +35,6 @@ public class MainController {
 	 * @return used to send all the details to UI part to show the output
 	 */
 	@GetMapping("/")
-	public String front() {
-		return "front";
-	}
-
-	/**
-	 * 
-	 * @return used to send all the details to UI part to show the output
-	 */
-	@GetMapping("/index")
 	public String index() {
 		return "index";
 	}
@@ -65,10 +56,10 @@ public class MainController {
 	 * @return used to send all the details to UI part to show the output
 	 * @throws Exception 
 	 */
-	@PostMapping("/index")
+	@PostMapping("/")
 	public String handelForm(@RequestParam("externalid") String strInstance, @RequestParam("reference") String strReference, Model model) throws Exception {
 		Map<String, List> mlFinalData = new HashMap<>();
-		List<Map<String, String>> lFinaldata = new ArrayList<Map<String, String>>();
+		//List<Map<String, String>> lFinaldata = new ArrayList<Map<String, String>>();
 		try {
 			
 			if(strInstance == "")
@@ -85,15 +76,13 @@ public class MainController {
 			for (Map mInstanceMeta : lmInstanceMetaResult) {
 				if (mInstanceMeta.containsKey("occurrence")) {
 					String strPath = (String) mInstanceMeta.get("occurrence");
-					//System.out.println("--strPath--" + strPath);
-
+		
 					String[] sPaths = strPath.split("\n");
 					for (int k = 0; k < sPaths.length; k++) {
 						strPath = sPaths[k];
 
 						if (strPath != null && !"".equals(strPath) && strPath.contains(INSTANCE_NAME)
 								&& (REFERENCE_NAME == null || REFERENCE_NAME != null && strPath.contains(REFERENCE_NAME))) {
-							//System.out.println("--strPath--" + strPath);
 							String strPhysicalIDPath = strPath.substring(strPath.lastIndexOf("~") + 1);
 							String strUpdatedPath = "";
 							String[] sNewPaths = strPhysicalIDPath.split("\\|");
@@ -106,8 +95,6 @@ public class MainController {
 							}
 							strUpdatedPath = strUpdatedPath.substring(0, strUpdatedPath.length() - 4);
 							
-							//System.out.println("--strPath--" + strPath);
-							
 							// Get the MfgProductionPlanning Details
 							Document docMFG = getDataFromSearchAPI("3dx_type:mfgproductionplanning AND " + strUpdatedPath);
 							List<Map<String, String>> lmMFGMetaResult = getMetaInformation(docMFG, Arrays.asList("mpart_pid"));
@@ -119,17 +106,13 @@ public class MainController {
 										// Call Search-API to get the MBOMInstance Data
 										Document docDelfIns = getDataFromSearchAPI("3dx_physicalid:" + strMPartID);
 										lmDelfMetaResult = getMetaInformation(docDelfIns, Arrays.asList("physicalid", "instance_externalid"));
-										mlFinalData.put(strPath, lmDelfMetaResult);
-									}
 									
-								}
-								
+									}			
+								}				
 							}
-							
-							
+							mlFinalData.put(strPath, lmDelfMetaResult);						
 						}
 					}
-
 				}
 			}
 			model.addAttribute("InstanceValue", strInstance);

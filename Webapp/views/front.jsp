@@ -37,7 +37,7 @@ body {font-family: Arial, Helvetica, sans-serif;}
 <body>
 
 <div class="navbar">
-  <a class="active" href="/"><i class="fa fa-fw fa-home"></i> Exalead Dassault Systemes</a> 
+  <a class="active" href="/"><i class="fa fa-fw fa-home"></i> Home</a> 
   <a href="/index"><i class="fa fa-fw fa-info-circle"></i> Occurrence</a> 
  <!--  <a href="/view"><i class="fa fa-fw fa-cubes"></i> Search value</a>  -->
  
