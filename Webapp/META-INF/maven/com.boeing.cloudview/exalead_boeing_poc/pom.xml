@@ -62,21 +62,7 @@
 			<scope>test</scope>
 		</dependency>
 		
-		<dependency>
-			<groupId>cloudview-sdk-java-clients</groupId>
-			<artifactId>cloudview-sdk-java-clients</artifactId>
-			<scope>system</scope>
-			<version>V6R2021x.0</version>
-			<systemPath>${project.basedir}/lib/cloudview-sdk-java-clients.jar</systemPath>
-		</dependency>
-
-		<dependency>
-			<groupId>search-java-client</groupId>
-			<artifactId>search-java-client</artifactId>
-			<scope>system</scope>
-			<version>V6R2021x.0</version>
-			<systemPath>${project.basedir}/lib/search-java-client.jar</systemPath>
-		</dependency>
+		
 
 
 	</dependencies>
