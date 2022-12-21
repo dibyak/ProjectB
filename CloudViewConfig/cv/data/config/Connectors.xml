@@ -1,6 +1,6 @@
-<connect:ConnectorList version="1670840589676" xmlns:bee="exa:exa.bee" xmlns:cdesc="exa:com.exalead.mercury.component.config.descriptor" xmlns:config="exa:exa.bee.config" xmlns:connect="exa:com.exalead.mercury.mami.connect.v10">
+<connect:ConnectorList version="1670999233216" xmlns:bee="exa:exa.bee" xmlns:cdesc="exa:com.exalead.mercury.component.config.descriptor" xmlns:config="exa:exa.bee.config" xmlns:connect="exa:com.exalead.mercury.mami.connect.v10">
     <connect:Connector name="default" managed="false" authenticationMode="public" generated="false">
-        <connect:PushConfig buffer="true" triggerIndexingAfterScan="true" profilePushOperations="false" automaticRestartOnFailure="true"/>
+        <connect:PushConfig buffer="true" triggerIndexingAfterScan="false" profilePushOperations="false" automaticRestartOnFailure="true"/>
         <connect:config/>
         <connect:forcedMeta/>
         <connect:SourceCachingConfig storeInDocumentCache="true" minSizeForCachingB="0" maxSizeForCachingB="0"/>
@@ -8,11 +8,11 @@
         <connect:SourcePreviewConfig allowHTMLPreview="true" allowImagePreview="true"/>
         <connect:SourceThumbnailsConfig allowThumbnails="true" precomputeThumbnails="false" precomputedThumbnailsHeight="120" precomputedThumbnailsWidth="120" homePageOnly="false"/>
     </connect:Connector>
-    <connect:Connector name="consolidation-cs0" managed="false" authenticationMode="public" documentsType="document" generated="false">
-        <connect:PushConfig buffer="true" triggerIndexingAfterScan="true" profilePushOperations="false" automaticRestartOnFailure="true"/>
+    <connect:Connector name="consolidation-cs0" managed="false" authenticationMode="public" generated="false">
+        <connect:PushConfig buffer="true" triggerIndexingAfterScan="false" profilePushOperations="false" automaticRestartOnFailure="true"/>
         <connect:config/>
         <connect:forcedMeta/>
-        <connect:SourceCachingConfig storeInDocumentCache="false" minSizeForCachingB="0" maxSizeForCachingB="0"/>
+        <connect:SourceCachingConfig storeInDocumentCache="true" minSizeForCachingB="0" maxSizeForCachingB="0"/>
         <connect:SourceFetchConfig allowRawDocumentFetch="true"/>
         <connect:SourcePreviewConfig allowHTMLPreview="true" allowImagePreview="true"/>
         <connect:SourceThumbnailsConfig allowThumbnails="true" precomputeThumbnails="false" precomputedThumbnailsHeight="120" precomputedThumbnailsWidth="120" homePageOnly="false"/>
