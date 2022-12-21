@@ -1,4 +1,4 @@
-<conso:ConsolidationConfigList version="1671433592457" xmlns:bee="exa:exa.bee" xmlns:edit="exa:com.exalead.editor.v10" xmlns:index="exa:com.exalead.mercury.mami.indexing.v10" xmlns:conso="exa:com.exalead.mercury.mami.consolidation.v10" xmlns:config="exa:exa.bee.config">
+<conso:ConsolidationConfigList version="1671448635591" xmlns:bee="exa:exa.bee" xmlns:edit="exa:com.exalead.editor.v10" xmlns:index="exa:com.exalead.mercury.mami.indexing.v10" xmlns:conso="exa:com.exalead.mercury.mami.consolidation.v10" xmlns:config="exa:exa.bee.config">
     <conso:ConsolidationConfig name="cc0_standard" nbThreads="4" maxNativeMemoryConsumptionThreshold="enabled" maxNativeMemoryConsumptionInMB="2048">
         <conso:TransformationProcessorConfigList>
             <conso:CustomJavaTransformationProcessor classId="com.exalead.consobox.transformation.AddArcTransformationProcessor" name="boe_CreateROVirtualNodeForPhysicalId" description="Add arcs to documents based on specified types and target URIs patterns (Ex:'{meta1}_{meta2}')" enabled="true" mime="text/x-jar" perfMonitored="false" context="create/update">
