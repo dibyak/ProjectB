@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,14 +35,17 @@ public class MainController {
 	 * 
 	 * @return used to send all the details to UI part to show the output
 	 */
-	@GetMapping("/")
+	@GetMapping({"/" , "/index","/boeingCloudViewSearch/index"})
 	public String index() {
 		return "index";
 	}
 
-	private final String EXA_URL_PROTOCOL = "http";
-	private final String EXA_SERVER_NAME = "www.sgspc0813dx2022.com";
-	private final String EXA_SERVER_PORT = "29010";
+	@Value("${cloudviewconfig.protocol}")
+	private String EXA_URL_PROTOCOL;
+	@Value("${cloudviewconfig.servername}")
+	private String EXA_SERVER_NAME;
+	@Value("${cloudviewconfig.serverport}")
+	private String EXA_SERVER_PORT;
 
 	private String INSTANCE_NAME = null;
 	private String REFERENCE_NAME = null;

@@ -98,21 +98,22 @@ td, th {
 <body>
 
 	<div class="navbar">
-		<a class="active" href="/"><i class="fa fa-fw fa-home"></i> Home</a>
+		<a class="active" href="/boeingCloudViewSearch/index"><i class="fa fa-fw fa-home"></i> Home</a>
 
 	</div>
 
 	<h3 style="text-align: center;">Find Multi-Occurrence for Work
 		Plan</h3>
+		
+		<!-- Instance Title -->
 
 	<div class="container">
-		<form action="/" method="post">
-			<label for="fname">Enter the External Id of the Instance</label> <input
+		<form action="result" method="post">
+			<label for="fname">Enter the Instance Title</label> <input
 				type="text" id="fname" name="externalid"
-				placeholder="Enter External Id"> <label for="lname">Enter
-				the Name of the Reference, where Instance has multiple occurrence</label> <input
+				placeholder="Enter External title"> <label for="lname">Enter Reference Name </label> <input
 				type="text" id="lname" name="reference"
-				placeholder="Enter Reference"> <input type="submit"
+				placeholder="Enter Reference name"> <input type="submit"
 				value="Submit">
 		</form>
 	</div>
@@ -123,8 +124,7 @@ td, th {
 			<c:choose>
 				<c:when test="${FinalData.size() > 0}">
 					<tr>
-						<th rowspan="2" style="text-align: center">Instance External
-							Id</th>
+						<th rowspan="2" style="text-align: center">Instance Title</th>
 						<th rowspan="2" style="text-align: center">Reference Name</th>
 						<th rowspan="2" style="text-align: center">Occurrence</th>
 						<th colspan="2" style="text-align: center">Provided Instance Details</th>
@@ -132,7 +132,7 @@ td, th {
 					</tr>
 					<tr>
 						<th style="text-align: center">Physical Id</th>
-						<th style="text-align: center">External Id</th>
+						<th style="text-align: center">Instance Title</th>
 					</tr>
 
 					<tr>
