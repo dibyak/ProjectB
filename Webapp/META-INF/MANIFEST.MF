@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Created-By: Maven WAR Plugin 3.3.2
 Build-Jdk-Spec: 17
-Implementation-Title: exalead_boeing_poc
+Implementation-Title: boeingpoc
 Implementation-Version: 0.0.1-SNAPSHOT
 Main-Class: org.springframework.boot.loader.WarLauncher
 Start-Class: com.boeing.cloudview.search.CloudViewSearchApplication
